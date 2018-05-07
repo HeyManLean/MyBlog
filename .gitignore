@@ -2,3 +2,4 @@
 *pycache
 *.vscode
 *.pyc
+*.python-version
