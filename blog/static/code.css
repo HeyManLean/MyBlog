@@ -1,0 +1,185 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("images/code.png");
+    background-repeat: repeat-x;
+    background-position: right bottom;
+    background-attachment: fixed;
+    text-align: center;
+}
+
+#welcome {
+    font-family: arial;
+    color: red;
+    font-size: 120px;
+    text-transform: uppercase;
+    word-spacing: 30px;
+    margin: 0 auto;
+}
+
+p.delete {
+    text-decoration: line-through;
+    color: red;
+}
+
+.img1 {
+    width: 80%;
+    height: 80%;
+    margin: 22px auto;
+}
+
+.red {
+    width: 300px;
+    height: 300px;
+    border-style: solid;
+    border-color: red;
+    border-width: 20px;
+}
+
+.green {
+    max-width: 1200px;
+    height: 600px;
+    border-style: solid;
+    border-width: 20px;
+    border-color: green;
+    margin: 0 auto;
+}
+
+.pink {
+    width: 260px;
+    height: 260px;
+    border-style: solid;
+    border-width: 20px;
+    border-color: pink;
+}
+
+.display-label {
+    position: relative;
+    width: 200px;
+    height: 100%;
+    display: inline-block;
+}
+
+.display-home {
+    position: relative;
+    width: 1000px;
+    height: 100%;
+    display: inline-block;
+    background-color: black;
+    border-right: 1px solid #555;
+}
+
+.display-menu {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background-color: black;
+}
+
+.display-label:hover .display-menu {
+    display: block;
+}
+
+.menu {
+    display: flex;
+    background-color: black;
+    float: left;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+
+.menu-btn {
+    width: 100%;
+    height: 100%;
+    border-width: 0;
+    border-right: 1px solid #555;
+    background-color: black;
+    color: white;
+    display: block;
+    padding: 0;
+    cursor: pointer;
+    font-size: 15px;
+    font-family: Arial;
+}
+
+.menu-btn2 {
+    width: 99%;
+    height: 50px;
+    color: white;
+    border-width: 0;
+    border-top: 1px solid #555;
+    border-left: 1px solid #555;
+    background-color: #222;
+    display: block;
+    padding: 0;
+    cursor: pointer;
+    line-height: 50px;
+    font-size: 12px;
+    font-family: Arial;
+}
+
+.menu-btn:hover,
+.menu-btn2:hover {
+    background-color: rgb(50, 196, 196);
+}
+
+.menu-btn:active,
+.menu-btn2:active {
+    background-color: rgb(16, 145, 145);
+}
+
+.btn2 {
+    background-color: rgb(50, 196, 196);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 50px;
+    /* border: 0; */
+}
+
+.lean-logo-img {
+    margin: 0;
+    padding: 0;
+    width: 60px;
+    height: 100%;
+    /* float: left; */
+    /* position: absolute;
+    left: 40px; */
+    /* top: 5px; */
+}
+
+.lean-logo-img1 {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    height: 100%;
+    /* float: left; */
+    /* position: absolute;
+    left: 100px; */
+    /* top: 5px; */
+}
+
+.lean-font {
+    font-size: 2em;
+    font-style: none;
+    text-decoration: none;
+    color: white;
+    position: absolute;
+    font-family: sans-serif;
+    line-height: 60px;
+    left: 100px;
+}
+
+.lean-home {
+    text-decoration: none;
+}
