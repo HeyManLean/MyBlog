@@ -1,0 +1,65 @@
+{% extends "bootstrap/base.html" %} {% block navbar %}
+<div class="container">
+    <div class="jumbotron" style="padding-bottom: 12px; padding-top: 20px; background-color: rgb(31, 207, 207)">
+        <h1>Lean's Blog</h1>
+        <p>横眉冷却千夫指, 俯首甘为孺子牛！</p>
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <td>昨天</td>
+                    <td>今天</td>
+                    <td>明天</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="warning">迷茫</td>
+                    <td class="info">努力</td>
+                    <td class="success">收获</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <form class="form-inline" role="form" style="float: right;">
+            <div class="form-group">
+                <label for="email">邮箱</label>
+                <input type="text" class="form-control" id="email" placeholder="请输入邮箱">
+                <label for="password">密码</label>
+                <input type="password" class="form-control" id="password" placeholder="密码">
+                <label>
+                    <input type="checkbox" class="checkbox">记住我
+                </label>
+                <button type="submit" class="btn btn-info btn-sm">提交</button>
+            </div>
+        </form>
+        <ul class="list-inline ">
+            <li>
+                <a href="#">
+                    <strong>关于我</strong>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <strong>目录</strong>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <strong>更多</strong>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>第一列</h3>
+            <p>学的不仅是技术，更是梦想！</p>
+            <p>再牛逼的梦想,也抵不住你傻逼似的坚持！</p>
+        </div>
+        <div class="col-sm-8">
+            <h2>不浮不躁, 稳步向前!</h2>
+            <p>实现梦想, 勇往直前!</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,13 +1,20 @@
-from flask import Flask, request, render_template
-from flask_login import current_user, LoginManager
+from flask import Flask
+from flask import request
+from flask import render_template
+from flask import g
+from flask_login import current_user
+from flask_login import LoginManager
+from flask_bootstrap import Bootstrap
 
 
 login_manager = LoginManager()
+bootstrap = Bootstrap()
 
 
 def create_app():
     blog_app = Flask("Blog", static_folder='blog/static', template_folder='blog/templates')
     login_manager.init_app(blog_app)
+    bootstrap.init_app(blog_app)
     return blog_app
 
 
@@ -38,4 +45,4 @@ def before_request():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('home.html')
