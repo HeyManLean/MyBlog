@@ -1,9 +1,18 @@
-{% extends "bootstrap/base.html" %} {% block navbar %}
+{% extends "bootstrap/base.html" %} {% block head %} {{ super() }}
+<link rel="shortcut icon" href="{{url_for('static', filename='images/lean-logo.png')}}" type="imgae/x-icon"> {% endblock %} {% block navbar %}
+
 <div class="container">
-    <div class="jumbotron" style="padding-bottom: 12px; padding-top: 20px; background-color: rgb(31, 207, 207)">
+    <div class="jumbotron" style="padding-bottom: 10px; padding-top: 20px; background-color: rgb(31, 207, 207)">
+        <img src="{{url_for('static', filename='images/lean-logo.png')}}" class="image-circle img-responsive pull-left" alt="#" style="width: 80px; height: 80px;">
         <h1>Lean's Blog</h1>
         <p>横眉冷却千夫指, 俯首甘为孺子牛！</p>
-        <table class="table table-hover table-condensed">
+        <small class="text-muted">昨天</small>
+        <span class="label label-warning">迷茫</span>
+        <small class="text-muted">今天</small>
+        <span class="label label-info">努力</span>
+        <small class="text-muted">明天</small>
+        <span class="label label-success">收获</span>
+        <!-- <table class="table table-hover table-condensed">
             <thead>
                 <tr>
                     <td>昨天</td>
@@ -18,46 +27,92 @@
                     <td class="success">收获</td>
                 </tr>
             </tbody>
-        </table>
-        <hr>
-        <form class="form-inline" role="form" style="float: right;">
-            <div class="form-group">
-                <label for="email">邮箱</label>
-                <input type="text" class="form-control" id="email" placeholder="请输入邮箱">
-                <label for="password">密码</label>
-                <input type="password" class="form-control" id="password" placeholder="密码">
-                <label>
-                    <input type="checkbox" class="checkbox">记住我
-                </label>
-                <button type="submit" class="btn btn-info btn-sm">提交</button>
-            </div>
-        </form>
-        <ul class="list-inline ">
-            <li>
-                <a href="#">
-                    <strong>关于我</strong>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <strong>目录</strong>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <strong>更多</strong>
-                </a>
-            </li>
-        </ul>
+        </table> -->
+        <br>
+        <br>
+        <nav class="nav">
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="#">
+                        <strong>关于我</strong>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <strong>目录</strong>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown">
+                        <strong>更多</strong>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-header">
+                            编程语言
+                        </li>
+                        {% for p_name in p_names %}
+                        <li>
+                            <a href="#">{{ p_name }}</a>
+                        </li>
+                        {% endfor %}
+                        <li class="divider"></li>
+                        <li class="dropdown-header">
+                            编程原理
+                        </li>
+                        <li>
+                            <a href="#">计算机网络</a>
+                            <a href="#">系统原理</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <strong>更新</strong>
+                        <span class="badge">{{ update_count }}</span>
+                    </a>
+                </li>
+                {% if username %}
+                <li class="navbar-right">
+                    <span class="navbar-text">欢迎你,
+                        <a href="#">{{ username }}</a>
+                    </span>
+                </li>
+                {% else %}
+                <li class="navbar-right">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="email">邮箱</label>
+                            <input type="text" class="form-control" id="email" placeholder="请输入邮箱">
+                            <label for="password">密码</label>
+                            <input type="password" class="form-control" id="password" placeholder="密码">
+                            <label>
+                                <input type="checkbox" class="checkbox">记住我
+                            </label>
+                            <button type="submit" class="btn btn-info btn-sm">提交</button>
+                        </div>
+                    </form>
+                </li>
+
+                {% endif %}
+            </ul>
+        </nav>
     </div>
+</div>
+{% endblock %} {% block content %} {{ super() }}
+<div class="container">
     <div class="row">
         <div class="col-sm-4">
-            <h3>第一列</h3>
+            <h3>第一章</h3>
             <p>学的不仅是技术，更是梦想！</p>
             <p>再牛逼的梦想,也抵不住你傻逼似的坚持！</p>
         </div>
         <div class="col-sm-8">
-            <h2>不浮不躁, 稳步向前!</h2>
+            <div class="page-header">
+                <h2 class="text-center">学会坚持
+                    <small>不浮不躁, 稳步向前!</small></h2>
+            </div>
+
             <p>实现梦想, 勇往直前!</p>
         </div>
     </div>

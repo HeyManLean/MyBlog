@@ -45,4 +45,9 @@ def before_request():
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    return render_template(
+        'home.html', 
+        p_names=["python", "Javascript", "C++"],
+        update_count=5,
+        username='hello'#current_user.username if current_user.is_active else None
+    )
