@@ -1,3 +1,6 @@
+from datetime import datetime
+import time
+
 from flask import Flask
 from flask import request
 from flask import render_template
@@ -5,16 +8,23 @@ from flask import g
 from flask_login import current_user
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from flask_wtf.csrf import CSRFProtect
+
+
+from blog.forms.login import LoginForm
 
 
 login_manager = LoginManager()
 bootstrap = Bootstrap()
+csrf = CSRFProtect()
 
 
 def create_app():
     blog_app = Flask("Blog", static_folder='blog/static', template_folder='blog/templates')
     login_manager.init_app(blog_app)
     bootstrap.init_app(blog_app)
+    csrf.init_app(blog_app)
+    blog_app.config['SECRET_KEY'] = 'SECRET_KEY'
     return blog_app
 
 
@@ -43,11 +53,20 @@ def before_request():
     )
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    now = datetime.now()
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        print(login_form.email.data, login_form.password.data)
+        print('request correct!')
+    else:
+        print('request invalid!')
     return render_template(
         'home.html', 
         p_names=["python", "Javascript", "C++"],
         update_count=5,
-        username='hello'#current_user.username if current_user.is_active else None
+        username=current_user.username if current_user.is_active else None,
+        date_time=time.strftime('%Y年%m月%d日 %H时%M分', now.timetuple()),
+        login_form=login_form
     )
