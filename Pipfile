@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+
+[packages]
+flask-wtf = "==0.14.2"
+Flask = "==0.12.2"
+Flask-Login = "==0.4.1"
+Flask-Bootstrap = "==3.3.7.1"
+Flask-SQLAlchemy = "==2.3.2"
+flask-script = "*"
+flask-migrate = "*"
+
+[requires]
+python_version = "3.6"

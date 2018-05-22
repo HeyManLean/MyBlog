@@ -1,5 +1,6 @@
 from datetime import datetime
 import time
+import os
 
 from flask import Flask
 from flask import request
@@ -9,7 +10,7 @@ from flask_login import current_user
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_wtf.csrf import CSRFProtect
-
+from flask_sqlalchemy import SQLAlchemy
 
 from blog.forms.login import LoginForm
 
@@ -17,6 +18,10 @@ from blog.forms.login import LoginForm
 login_manager = LoginManager()
 bootstrap = Bootstrap()
 csrf = CSRFProtect()
+db = SQLAlchemy()
+
+
+basedir = os.path.abspath(os.path.dirname(__file__)) 
 
 
 def create_app():
@@ -24,7 +29,14 @@ def create_app():
     login_manager.init_app(blog_app)
     bootstrap.init_app(blog_app)
     csrf.init_app(blog_app)
+    db.init_app(blog_app)
+
     blog_app.config['SECRET_KEY'] = 'SECRET_KEY'
+    blog_app.config['SQLALCHEMY_DATABASE_URI'] = \
+        'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    blog_app.config['SQLCHEMY_COMMIT_ON_TEARDOWN'] = True
+    blog_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    blog_app.config['DEBUG'] = True
     return blog_app
 
 
