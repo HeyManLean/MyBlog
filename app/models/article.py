@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from blog import db
+from app import db
 
 
 class Article(db.Model):

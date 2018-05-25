@@ -12,35 +12,33 @@ from flask_bootstrap import Bootstrap
 from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 
-from blog.forms.login import LoginForm
-
-
-login_manager = LoginManager()
-bootstrap = Bootstrap()
-csrf = CSRFProtect()
-db = SQLAlchemy()
+from app.main.forms.login import LoginForm
+from app.utils.email import Mail
 
 
 basedir = os.path.abspath(os.path.dirname(__file__)) 
 
+app = Flask("Blog", static_folder='blog/static', template_folder='blog/templates')
 
-def create_app():
-    blog_app = Flask("Blog", static_folder='blog/static', template_folder='blog/templates')
-    login_manager.init_app(blog_app)
-    bootstrap.init_app(blog_app)
-    csrf.init_app(blog_app)
-    db.init_app(blog_app)
+app.config['SECRET_KEY'] = 'SECRET_KEY'
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+app.config['SQLCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['DEBUG'] = True
 
-    blog_app.config['SECRET_KEY'] = 'SECRET_KEY'
-    blog_app.config['SQLALCHEMY_DATABASE_URI'] = \
-        'sqlite:///' + os.path.join(basedir, 'data.sqlite')
-    blog_app.config['SQLCHEMY_COMMIT_ON_TEARDOWN'] = True
-    blog_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-    blog_app.config['DEBUG'] = True
-    return blog_app
+app.config['MAIL_HOSTNAME'] = 'smtp.bigbin.club'
+app.config['MAIL_PORT'] = 25
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'bigbin@bigbin.club'
+app.config['MAIL_PASSWORD'] = 'BINbin13078313586'
+app.config['MAIL_SENDER'] = "Mr.Lean <bigbin@bigbin.club>"
 
-
-app = create_app()
+login_manager = LoginManager(app)
+bootstrap = Bootstrap(app)
+csrf = CSRFProtect(app)
+db = SQLAlchemy(app)
+mail = Mail(app)
 
 
 @app.before_request

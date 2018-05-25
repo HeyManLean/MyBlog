@@ -1,14 +1,15 @@
 from flask_script import Manager, Shell, Server
 from flask_migrate import Migrate, MigrateCommand
 
-from blog import app, db
-from blog.models import *
+from app import app, db, mail
+from app.models import *
 
 
 def make_shell_context():
     return dict(
         app=app,
         db=db,
+        mail=mail,
         User=User,
         Article=Article
     )
