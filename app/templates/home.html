@@ -1,9 +1,39 @@
-{% extends "bootstrap/base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Lean's Blog{% endblock %}
-{% block head %} {{ super() }}
+{% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block title %}Lean's Blog{% endblock %} {%
+block head %} {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='images/lean-logo.png') }}" type="imgae/x-icon">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}"> {% endblock %} {% block navbar %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<script>
+    $(document).ready(function () {
+        $("#loginBtn").on("click", function () {
+            $("#loginForm").ajaxSubmit({
+                beforeSubmit: function () {
+                    var email = $("#email").val();
+                    var password = $("#password").val()
+                },
+                url: "/login",
+                async: false,
+                dataType: "json",
+                type: "POST",
+                success: function (data, status) {
+                    var data = JSON.parse(data);
+                    if (data.code != 200) {
+                        $("#loginWarnText").val(data.message);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                },
+                data: {
+                    email: $("#email").val(),
+                    password: $("#password").val(),
+                    remember_me: $("#remember_me").val()
+                }
+            });
+            return false;
+        });
+    });
+</script>
+{% endblock %} {% block navbar %}
 <div class="container" style="background-color: white;">
     <div class="jumbotron" style="padding-bottom: 10px; padding-top: 20px; margin: 15px 0 0 0; background-color: rgb(31, 207, 207)">
         <img src="{{url_for('static', filename='images/lean-logo.png')}}" class="image-circle img-responsive pull-left" alt="#" style="width: 80px; height: 80px;">
@@ -16,7 +46,6 @@
         <small class="text-muted">明天</small>
         <span class="label label-success">收获</span>
         <hr>
-
         <nav class="nav">
             <ul class="list-inline">
                 <li>
@@ -59,34 +88,51 @@
                         <span class="badge">{{ update_count }}</span>
                     </a>
                 </li>
-                {% if username %}
                 <li class="pull-right">
-                    <span>欢迎你,
-                        <a href="#">{{ username }}</a>
+                    {% if current_user.is_active %}
+                    <span>{{ current_user.nickname }},
+                        <a href="{{ url_for('auth.logout') }}">登出</a>
                     </span>
-                </li>
-                {% else %}
-                <li class="navbar-right">
-                    <form class="form-inline" method="POST">
-                        <div class="form-group">
-                            {{ login_form.email.label }}
-                            {{ login_form.email(class="form-control", id="email", placeholder="请输入邮箱") }}
-                            {{ login_form.password.label }}
-                            {{ login_form.password(class="form-control", id="password", placeholder="密码") }}
-                            {{ login_form.remember_me(class="checkbox") }}
-                            {{ login_form.remember_me.label }}
-                            {{ login_form.submit(class="btn btn-info btn-sm") }}
-                            {{ login_form.csrf_token }}
+                    {% else %}
+                    <a href="#" data-toggle="modal" data-target="#loginModal">登录</a>
+                    <div class="modal fade" id="loginModal" tabIndex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                    <h4 class="modal-title" id="loginModalLabel">
+                                        用户登录
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form" method="POST" id="loginForm">
+                                        <div class="form-group">
+                                            {{ login_form.email.label }}
+                                            <small class="text-danger" id="loginWarnText">{{ error_message }}</small>
+                                            {{ login_form.email(class="form-control", id="email", placeholder="请输入邮箱") }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ login_form.password.label }} {{ login_form.password(class="form-control", id="password", placeholder="密码") }}
+                                        </div>
+                                        <div class="form-inline">
+                                            {{ login_form.remember_me(class="checkbox", id="remember_me") }} {{ login_form.remember_me.label }}
+                                        </div>
+                                            {{ login_form.submit(class="btn btn-info", id="loginBtn") }} {{ login_form.csrf_token }}
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                    {% endif %}
                 </li>
-
-                {% endif %}
             </ul>
         </nav>
     </div>
 </div>
-{% endblock %} {% block content %} {{ super() }}
+{% endblock %} {% block content %}
 <div class="container" style="background-color: white; min-height: 100vh; padding: 20px 50px; font-size: 18px;">
     <div class="row">
         <div class="col-sm-12">

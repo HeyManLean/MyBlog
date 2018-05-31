@@ -1,7 +1,7 @@
 from flask_script import Manager, Shell, Server
 from flask_migrate import Migrate, MigrateCommand
 
-from app import app, db, mail
+from app import create_app, db, mail
 from app.models import *
 
 
@@ -14,6 +14,7 @@ def make_shell_context():
         Article=Article
     )
 
+app = create_app()
 
 manager = Manager(app)
 migrate = Migrate(app, db)
