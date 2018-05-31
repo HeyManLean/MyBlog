@@ -10,7 +10,7 @@ from datetime import datetime
 from alembic import op
 import sqlalchemy as sa
 
-from blog import db
+from app import db
 
 
 # revision identifiers, used by Alembic.

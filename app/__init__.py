@@ -4,7 +4,6 @@ from flask import render_template
 from flask_login import current_user
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
-from flask_wtf.csrf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 
 from app.utils.email import Mail
@@ -13,7 +12,6 @@ from config import config
 
 login_manager = LoginManager()
 bootstrap = Bootstrap()
-csrf = CSRFProtect()
 db = SQLAlchemy()
 mail = Mail()
 
@@ -23,7 +21,6 @@ def create_app(config_name='testing'):
     app.config.from_object(config[config_name])
     login_manager.init_app(app)
     bootstrap.init_app(app)
-    csrf.init_app(app)
     db.init_app(app)
     mail.init_app(app)
 

@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
+"autopep8" = "*"
 
 [packages]
 flask-script = "*"
@@ -12,6 +13,7 @@ flask-sqlalchemy = "*"
 flask-login = "*"
 flask-bootstrap = "*"
 flask-migrate = "*"
+flask-restful = "*"
 
 [requires]
 python_version = "3.5"
