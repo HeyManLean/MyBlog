@@ -15,7 +15,7 @@ main = Blueprint('main', __name__)
 def index():
     now = datetime.now()
     return render_template(
-        'home.html',
+        'article/editor.html',
         update_count=5,
         current_user=current_user,
         date_time=time.strftime('%Y年%m月%d日 %H时%M分', now.timetuple())

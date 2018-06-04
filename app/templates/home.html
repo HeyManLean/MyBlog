@@ -1,11 +1,26 @@
 {% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block title %}Lean's Blog{% endblock %} {%
 block head %} {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='images/lean-logo.png') }}" type="imgae/x-icon">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-<script src="{{ url_for('static', filename='jquery-3.3.1.js') }}"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-markdown.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/marked.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap-markdown.js') }}"></script>
+{% block scripts %}
 <script>
     $(document).ready(function () {
+        var storage = window.localStorage;
+        $("#loginLink").click(function () {
+            $("#loginWarnText").text("");
+            var email = storage.email;
+            $("#email").val(email);
+        });
         $("#loginBtn").click(function () {
+            var pwd = $("#password").val();
+            var email = $("#email").val();
             $.ajax({
                 type: "post",
                 url: "login",
@@ -13,9 +28,6 @@ block head %} {{ super() }}
                 dataType: "json",
                 cache: false,
                 beforeSend: function () {
-                    $("#loginWarnText").text("");
-                    var pwd = $("#password").val();
-                    var email = $("#email").val();
                     if (!email) {
                         $("#loginWarnText").text("邮箱不能为空!");
                         return false;
@@ -29,6 +41,9 @@ block head %} {{ super() }}
                     if (data.code != 200) {
                         $("#loginWarnText").text(data.message);
                     } else {
+                        if (storage.email != email) {
+                            storage.email = email;
+                        }
                         window.location.reload();
                     }
                 }
@@ -50,7 +65,7 @@ block head %} {{ super() }}
         });
     });
 </script>
-{% endblock %} {% block navbar %}
+{% endblock %} {% endblock %} {% block navbar %}
 <div class="container" style="background-color: white;">
     <div class="jumbotron" style="padding-bottom: 10px; padding-top: 20px; margin: 15px 0 0 0; background-color: rgb(31, 207, 207)">
         <img src="{{url_for('static', filename='images/lean-logo.png')}}" class="image-circle img-responsive pull-left" alt="#" style="width: 80px; height: 80px;">
@@ -63,7 +78,7 @@ block head %} {{ super() }}
         <small class="text-muted">明天</small>
         <span class="label label-success">收获</span>
         <hr>
-        <nav class="nav">
+        <div>
             <ul class="list-inline">
                 <li>
                     <a href="#">
@@ -102,14 +117,14 @@ block head %} {{ super() }}
                 <li class="pull-right">
                     {% if current_user.is_active %}
                     <span>{{ current_user.nickname }},
-                        <a href="#" id="logoutBtn">登出</a>
+                        <a href="#" id="logoutBtn" style="text-decoration: underline;">登出</a>
                     </span>
                     {% else %}
-                    <a href="#" data-toggle="modal" data-target="#loginModal" style="text-decoration: underline;">登录</a>
+                    <a href="#" id="loginLink" data-toggle="modal" data-target="#loginModal" style="text-decoration: underline;">登录</a>
                     {% endif %}
                 </li>
             </ul>
-        </nav>
+        </div>
     </div>
 </div>
 <div class="modal fade" id="loginModal" tabIndex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -146,7 +161,8 @@ block head %} {{ super() }}
     </div>
 </div>
 {% endblock %} {% block content %}
-<div class="container" style="background-color: white; min-height: 100vh; padding: 20px 50px; font-size: 18px;">
+<div class="container" style="background-color: white; padding: 20px 20px; font-size: 18px; min-height: 100vh;">
+    {% block azone %}
     <div class="row">
         <div class="col-sm-12">
             <article>
@@ -164,7 +180,9 @@ block head %} {{ super() }}
                 <hr>
                 <p>实现梦想, 勇往直前!</p>
             </article>
+
         </div>
     </div>
+    {% endblock %}
 </div>
 {% endblock %}
