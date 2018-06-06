@@ -1,15 +1,40 @@
-{% extends "home.html" %} {% block article %}
+{% extends "home.html" %} 
+{% block scripts %}
+<script>
+    var post_id = /articles\/(\d+)/.exec(window.location.href)[1];
+    var articleUrl = "/api/v1/articles/" + post_id
+    var articleLoaded = false;
+    $("Document").ready(function () {
+        if (articleLoaded) {
+            return;
+        }
+        $.ajax({
+            type: "get",
+            url: articleUrl,
+            dataType: "json",
+            success: function (data, status) {
+                $("#articleTitle").text(data.title);
+                $("#articleAtuhor").text(data.username);
+                var createTime = new Date(data.create_time * 1000);
+                $("#artcleCreateTime").text(createTime.toLocaleDateString());
+                $("#articleHtml").html(data.html);
+            }
+        });
+        articleLoaded = true;
+    });
+</script>
+{{ super() }}
+{% endblock %}
+{% block article %}
 <div class="text-center">
-    <h2>学会坚持
-        <small>不浮不躁, 稳步向前!</small>
-    </h2>
-    <div>
-        <small class="text-muted">作者: {{ username }}</small>
+    <h2 id="articleTitle"></h2>
+    <div class="text-info">
+        作者: <small id="articleAtuhor"></small>
     </div>
-    <div>
-        <small class="text-muted">{{ date_time }}</small>
+    <div class="text-warning">
+        <small>创作于: <span id="artcleCreateTime"></span></small>
     </div>
 </div>
 <hr>
-<p>实现梦想, 勇往直前!</p>
+<div id="articleHtml"></div>
 {% endblock %}

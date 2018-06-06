@@ -1,8 +1,11 @@
-from flask_restful import reqparse, Resource
+from flask_restful import Resource
+from flask_restful.reqparse import Argument
 from flask_login import login_required, current_user
 
-from app.models import Article
 from app import db
+from app.api.utils import get_params
+from app.models import Article
+from app.utils.data import date2stamp
 
 
 class ArticlesResource(Resource):
@@ -34,7 +37,7 @@ class ArticlesIdResource(Resource):
                 html=article.html,
                 content=article.content,
                 username=article.user.nickname,
-                create_time=article.create_time
+                create_time=date2stamp(article.create_time)
             )
         return data
 
@@ -47,16 +50,13 @@ class ArticlesIdResource(Resource):
                 message="The requested article is not found"
             )
         else:
-            parser = reqparser.RequestParser()
-            parser.add_argument('title', type=str, required=True)
-            parser.add_argument('content', type=str, required=True)
-            args = parser.parse_args()
-
-            title = args['title']
-            content = args['content']
-            html = args['html']
-
-            Article.update(title, content, html)
+            (title, content, html) = get_params([
+                Argument('title', type=str, required=True),
+                Argument('content', type=str, required=True),
+                Argument('html', type=str, required=True)
+            ])
+            article.update(title, content, html)
+            db.session.commit()
             data = dict(
                 code=200,
                 message="ok"

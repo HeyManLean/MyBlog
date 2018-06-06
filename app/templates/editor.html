@@ -1,19 +1,20 @@
 {% extends "home.html" %} {% block scripts %} {{ super() }}
 <script>
-    var post_id = /articles\/(\d+)/.exec(window.location.href);
+    var post_id = /articles\/(\d+)/.exec(window.location.href)[1];
     var editorLoaded = false;
+    var articleUrl = "/api/v1/articles/" + post_id
     $("Document").ready(function () {
         if (editorLoaded) {
-            return
+            return;
         }
         $.ajax({
-            url: "articles/" + post_id,
+            url: articleUrl,
             type: "get",
             dataType: "json",
             success: function (data, status) {
                 if (data.code == 200) {
                     $("#articleTitle").val(data.title);
-                    $("#editor").val(data.md_content);
+                    $("#editor").val(data.content);
                 }
             }
         });
@@ -23,16 +24,16 @@
         autofocus: true,
         savable: false,
         onSave: function (e) {
-            var md_content = e.getContent();
-            var html_content = e.parseContent();
-            var html_title = $("#articleTitle").val();
+            var content = e.getContent();
+            var html = e.parseContent();
+            var title = $("#articleTitle").val();
             $.ajax({
-                url: "articles/" + post_id,
-                type: "post",
+                url: articleUrl,
+                type: "put",
                 data: {
-                    title: html_title,
-                    content: html_content,
-                    md_content: md_content
+                    title: title,
+                    html: html,
+                    content: content
                 },
                 dataType: "json",
                 success: function (data, status) {

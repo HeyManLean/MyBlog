@@ -15,19 +15,21 @@ block head %} {{ super() }}
     var isLoaded = false;
     $("Document").ready(function () {
         if (isLoaded) {
-            return
+            return;
         }
-        var session_url = 'api/v1/session';
+        var sessionUrl = '/api/v1/session';
         var storage = window.localStorage;
         var setLoginText = function () {
             var nickname = $.cookie("nickname");
-            var loginText;
+            var loginText, createLiText;
             if (nickname) {
                 loginText = nickname + "," +
                     "<a href='#' id='logoutLink' style='text-decoration: underline;'>登出</a>";
+                createLiText = "<a href='#' id='createLink'><strong>创作</strong></a>";
             } else {
                 loginText =
                     "<a href='#' id='loginLink' data-toggle='modal' data-target='#loginModal' style='text-decoration: underline;'>登录</a>";
+                createLiText = "";
             }
             $("#loginText").html(loginText);
             $("#loginText").append($("#loginLink").click(function () {
@@ -38,13 +40,29 @@ block head %} {{ super() }}
             $("#loginText").append($("#logoutLink").click(function () {
                 $.ajax({
                     type: "delete",
-                    url: session_url,
+                    url: sessionUrl,
                     dataType: "json",
                     success: function (data, status) {
                         if (data.code != 200) {
                             alert("退出登录失败, 请稍后重试!");
                         } else {
                             setLoginText();
+                        }
+                    }
+                });
+            }));
+            $("#createLi").html(createLiText);
+            $("#createLi").append($("#createLink").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/api/v1/articles",
+                    dataType: "json",
+                    success: function (data, status) {
+                        if (data.code != 200) {
+                            alert("创建文章失败, 请稍后重试!");
+                        } else {
+                            var articleId = data.id;
+                            window.location.href = "/articles/" + articleId + "/write";
                         }
                     }
                 });
@@ -56,7 +74,7 @@ block head %} {{ super() }}
             var email = $("#email").val();
             $.ajax({
                 type: "post",
-                url: session_url,
+                url: sessionUrl,
                 data: $("#loginForm").serialize(),
                 dataType: "json",
                 cache: false,
@@ -136,6 +154,7 @@ block head %} {{ super() }}
                         <span class="badge">{{ update_count }}</span>
                     </a>
                 </li>
+                <li id="createLi"></li>
                 <li class="pull-right">
                     <span id="loginText"></span>
                 </li>
