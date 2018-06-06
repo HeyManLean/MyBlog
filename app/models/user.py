@@ -23,7 +23,7 @@ class User(UserMixin, db.Model):
         db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     articles = db.relationship(
-        'Article', backref='user', order_by='Article.id')
+        'Article', backref='user', order_by='Article.id', lazy='dynamic')
 
     def __repr__(self):
         return '<User %r>' % self.nickname

@@ -11,12 +11,20 @@ from app import mail
 main = Blueprint('main', __name__)
 
 
-@main.route('/', methods=['GET', 'POST'])
+@main.route('/')
 def index():
     now = datetime.now()
     return render_template(
-        'article/editor.html',
-        update_count=5,
-        current_user=current_user,
-        date_time=time.strftime('%Y年%m月%d日 %H时%M分', now.timetuple())
+        'home.html',
+        update_count=5
     )
+
+
+@main.route('/articles/<int:id>/read')
+def articles_read(id):
+    return render_template("show.html")
+
+
+@main.route('/articles/<int:id>/write')
+def articles_write(id):
+    return render_template('editor.html')

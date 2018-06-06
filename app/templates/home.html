@@ -6,24 +6,57 @@ block head %} {{ super() }}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 
 <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.cookie.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/marked.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap-markdown.js') }}"></script>
 {% block scripts %}
 <script>
-    $(document).ready(function () {
+    var isLoaded = false;
+    $("Document").ready(function () {
+        if (isLoaded) {
+            return
+        }
+        var session_url = 'api/v1/session';
         var storage = window.localStorage;
-        $("#loginLink").click(function () {
-            $("#loginWarnText").text("");
-            var email = storage.email;
-            $("#email").val(email);
-        });
+        var setLoginText = function () {
+            var nickname = $.cookie("nickname");
+            var loginText;
+            if (nickname) {
+                loginText = nickname + "," +
+                    "<a href='#' id='logoutLink' style='text-decoration: underline;'>登出</a>";
+            } else {
+                loginText =
+                    "<a href='#' id='loginLink' data-toggle='modal' data-target='#loginModal' style='text-decoration: underline;'>登录</a>";
+            }
+            $("#loginText").html(loginText);
+            $("#loginText").append($("#loginLink").click(function () {
+                $("#loginWarnText").text("");
+                var email = storage.email;
+                $("#email").val(email);
+            }));
+            $("#loginText").append($("#logoutLink").click(function () {
+                $.ajax({
+                    type: "delete",
+                    url: session_url,
+                    dataType: "json",
+                    success: function (data, status) {
+                        if (data.code != 200) {
+                            alert("退出登录失败, 请稍后重试!");
+                        } else {
+                            setLoginText();
+                        }
+                    }
+                });
+            }));
+        };
+        setLoginText();
         $("#loginBtn").click(function () {
             var pwd = $("#password").val();
             var email = $("#email").val();
             $.ajax({
                 type: "post",
-                url: "login",
+                url: session_url,
                 data: $("#loginForm").serialize(),
                 dataType: "json",
                 cache: false,
@@ -44,25 +77,14 @@ block head %} {{ super() }}
                         if (storage.email != email) {
                             storage.email = email;
                         }
-                        window.location.reload();
+                        setLoginText();
+                        $("#password").val("")
+                        $("#loginModal").modal("hide");
                     }
                 }
             });
         });
-        $("#logoutBtn").click(function () {
-            $.ajax({
-                type: "post",
-                url: "logout",
-                dataType: "json",
-                success: function (data, status) {
-                    if (data.code != 200) {
-                        alert("退出登录失败, 请稍后重试!");
-                    } else {
-                        window.location.reload();
-                    }
-                }
-            });
-        });
+        isLoaded = true;
     });
 </script>
 {% endblock %} {% endblock %} {% block navbar %}
@@ -81,7 +103,7 @@ block head %} {{ super() }}
         <div>
             <ul class="list-inline">
                 <li>
-                    <a href="#">
+                    <a href="#/aboutme">
                         <strong>关于我</strong>
                     </a>
                 </li>
@@ -115,13 +137,7 @@ block head %} {{ super() }}
                     </a>
                 </li>
                 <li class="pull-right">
-                    {% if current_user.is_active %}
-                    <span>{{ current_user.nickname }},
-                        <a href="#" id="logoutBtn" style="text-decoration: underline;">登出</a>
-                    </span>
-                    {% else %}
-                    <a href="#" id="loginLink" data-toggle="modal" data-target="#loginModal" style="text-decoration: underline;">登录</a>
-                    {% endif %}
+                    <span id="loginText"></span>
                 </li>
             </ul>
         </div>
@@ -164,23 +180,16 @@ block head %} {{ super() }}
 <div class="container" style="background-color: white; padding: 20px 20px; font-size: 18px; min-height: 100vh;">
     {% block azone %}
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-10 col-sm-offset-1">
             <article>
+                {% block article %}
                 <div class="text-center">
-                    <h2>学会坚持
-                        <small>不浮不躁, 稳步向前!</small>
-                    </h2>
-                    <div>
-                        <small class="text-muted">作者: {{ username }}</small>
-                    </div>
-                    <div>
-                        <small class="text-muted">{{ date_time }}</small>
-                    </div>
+                    <h2>博客简介</h2>
                 </div>
                 <hr>
-                <p>实现梦想, 勇往直前!</p>
+                <p>这是我学习web开发的一个博客!</p>
+                {% endblock %}
             </article>
-
         </div>
     </div>
     {% endblock %}

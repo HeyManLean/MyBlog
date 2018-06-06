@@ -1,6 +1,24 @@
 {% extends "home.html" %} {% block scripts %} {{ super() }}
 <script>
     var post_id = /articles\/(\d+)/.exec(window.location.href);
+    var editorLoaded = false;
+    $("Document").ready(function () {
+        if (editorLoaded) {
+            return
+        }
+        $.ajax({
+            url: "articles/" + post_id,
+            type: "get",
+            dataType: "json",
+            success: function (data, status) {
+                if (data.code == 200) {
+                    $("#articleTitle").val(data.title);
+                    $("#editor").val(data.md_content);
+                }
+            }
+        });
+        editorLoaded = true;
+    });
     $("#editor").markdown({
         autofocus: true,
         savable: false,
@@ -9,7 +27,7 @@
             var html_content = e.parseContent();
             var html_title = $("#articleTitle").val();
             $.ajax({
-                url: "article/" + post_id,
+                url: "articles/" + post_id,
                 type: "post",
                 data: {
                     title: html_title,
@@ -22,21 +40,6 @@
                 }
             });
         }
-    });
-    $("Document").ready(function () {
-        $.ajax({
-            url: "article/" + post_id,
-            type: "get",
-            dataType: "json",
-            success: function (data, status) {
-                if (data.code == 200) {
-                    $("#articleTitle").val(data.title);
-                    $("#editor").val(data.md_content);
-                } else {
-                    alert(data.message);
-                }
-            }
-        });
     });
 </script>
 {% endblock %} {% block azone %}
