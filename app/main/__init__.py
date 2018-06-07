@@ -28,3 +28,8 @@ def articles_read(id):
 @main.route('/articles/<int:id>/write')
 def articles_write(id):
     return render_template('editor.html')
+
+
+@main.route('/my-articles')
+def my_articles():
+    return render_template("list.html")

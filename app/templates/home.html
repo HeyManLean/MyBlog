@@ -1,17 +1,20 @@
-{% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block title %}Lean's Blog{% endblock %} {%
-block head %} {{ super() }}
+{% extends "bootstrap/base.html" %}{% block title %}Lean's Blog{% endblock %} {% block head %} {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='images/lean-logo.png') }}" type="imgae/x-icon">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-markdown.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 
 <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery.cookie.js') }}"></script>
-<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
 <script src="{{ url_for('static', filename='js/marked.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap-markdown.js') }}"></script>
 {% block scripts %}
 <script>
+    function timestamp2Date(timestamp) {
+        var createTime = new Date(timestamp * 1000);
+        return createTime.toLocaleDateString();
+    }
     var isLoaded = false;
     $("Document").ready(function () {
         if (isLoaded) {
@@ -26,6 +29,7 @@ block head %} {{ super() }}
                 loginText = nickname + "," +
                     "<a href='#' id='logoutLink' style='text-decoration: underline;'>登出</a>";
                 createLiText = "<a href='#' id='createLink'><strong>创作</strong></a>";
+                $("#articleLi").html("<a href='/my-articles'><strong>我的文章</strong></a>");
             } else {
                 loginText =
                     "<a href='#' id='loginLink' data-toggle='modal' data-target='#loginModal' style='text-decoration: underline;'>登录</a>";
@@ -46,7 +50,7 @@ block head %} {{ super() }}
                         if (data.code != 200) {
                             alert("退出登录失败, 请稍后重试!");
                         } else {
-                            setLoginText();
+                            window.location.reload();
                         }
                     }
                 });
@@ -62,7 +66,8 @@ block head %} {{ super() }}
                             alert("创建文章失败, 请稍后重试!");
                         } else {
                             var articleId = data.id;
-                            window.location.href = "/articles/" + articleId + "/write";
+                            window.location.href = "/articles/" + articleId +
+                                "/write";
                         }
                     }
                 });
@@ -110,7 +115,7 @@ block head %} {{ super() }}
     <div class="jumbotron" style="padding-bottom: 10px; padding-top: 20px; margin: 15px 0 0 0; background-color: rgb(31, 207, 207)">
         <img src="{{url_for('static', filename='images/lean-logo.png')}}" class="image-circle img-responsive pull-left" alt="#" style="width: 80px; height: 80px;">
         <h1>Lean's Blog</h1>
-        <p>横眉冷却千夫指, 俯首甘为孺子牛！</p>
+        <p>横眉冷对千夫指, 俯首甘为孺子牛！</p>
         <small class="text-muted">昨天</small>
         <span class="label label-warning">迷茫</span>
         <small class="text-muted">今天</small>
@@ -121,13 +126,18 @@ block head %} {{ super() }}
         <div>
             <ul class="list-inline">
                 <li>
+                    <a href="/">
+                        <strong>首页</strong>
+                    </a>
+                </li>
+                <li>
                     <a href="#/aboutme">
                         <strong>关于我</strong>
                     </a>
                 </li>
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown">
-                        <strong>目录</strong>
+                        <strong>分类</strong>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -155,6 +165,7 @@ block head %} {{ super() }}
                     </a>
                 </li>
                 <li id="createLi"></li>
+                <li id="articleLi"></li>
                 <li class="pull-right">
                     <span id="loginText"></span>
                 </li>

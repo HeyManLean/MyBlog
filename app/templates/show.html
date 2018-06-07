@@ -1,6 +1,11 @@
 {% extends "home.html" %} 
 {% block scripts %}
+{{ super() }}
 <script>
+    function timestamp2Date (timestamp) {
+        var createTime = new Date(timestamp * 1000);
+        return createTime.toLocaleDateString();
+    }
     var post_id = /articles\/(\d+)/.exec(window.location.href)[1];
     var articleUrl = "/api/v1/articles/" + post_id
     var articleLoaded = false;
@@ -14,25 +19,22 @@
             dataType: "json",
             success: function (data, status) {
                 $("#articleTitle").text(data.title);
-                $("#articleAtuhor").text(data.username);
-                var createTime = new Date(data.create_time * 1000);
-                $("#artcleCreateTime").text(createTime.toLocaleDateString());
+                $("#articleAtuhor").text(data.author);
+                $("#artcleCreateTime").text(timestamp2Date(data.create_time));
                 $("#articleHtml").html(data.html);
             }
         });
         articleLoaded = true;
     });
 </script>
-{{ super() }}
+
 {% endblock %}
 {% block article %}
 <div class="text-center">
     <h2 id="articleTitle"></h2>
-    <div class="text-info">
-        作者: <small id="articleAtuhor"></small>
-    </div>
-    <div class="text-warning">
-        <small>创作于: <span id="artcleCreateTime"></span></small>
+    <div class="text-muted">
+        <small>作者: <strong class="text-primary label label-success" id="articleAtuhor"></strong></small>
+        <small>创作于: <strong class="text-info" id="artcleCreateTime"></strong></small>
     </div>
 </div>
 <hr>

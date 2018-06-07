@@ -39,3 +39,9 @@ class Article(db.Model):
         self.html = html
         db.session.flush()
         return True
+    
+    @classmethod
+    def get_by_userid(cls, user_id):
+        return cls.query.filter_by(
+            user_id=user_id
+        ).all()

@@ -10,6 +10,25 @@ from app.utils.data import date2stamp
 
 class ArticlesResource(Resource):
     @login_required
+    def get(self):
+        articles = Article.get_by_userid(current_user.id)
+        articles_data = [
+            dict(
+                id=a.id,
+                title=a.title,
+                html=a.html,
+                author=a.user.nickname,
+                create_time=date2stamp(a.create_time),
+                view_count=0)
+            for a in articles]
+        data = dict(
+            list=articles_data,
+            code=200,
+            message="ok"
+        )
+        return data
+
+    @login_required
     def post(self):
         new_article = Article.insert(current_user.id)
         db.session.commit()
@@ -36,7 +55,7 @@ class ArticlesIdResource(Resource):
                 title=article.title,
                 html=article.html,
                 content=article.content,
-                username=article.user.nickname,
+                author=article.user.nickname,
                 create_time=date2stamp(article.create_time)
             )
         return data
@@ -62,3 +81,21 @@ class ArticlesIdResource(Resource):
                 message="ok"
             )
         return data
+    
+    @login_required
+    def delete(self, id):
+        article = Article.query.get(id)
+        if not article:
+            data = dict(
+                code=404,
+                message="The requested article is not found"
+            )
+        else:
+            db.session.delete(article)
+            db.session.commit()
+            data = dict(
+                code=200,
+                message="ok"
+            )
+        return data
+
