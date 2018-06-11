@@ -25,6 +25,9 @@
         var highlighted = hljs.highlight(lang, code).value;
         return '<pre class="hljs"><code class="hljs ' + lang + '">' + highlighted + '</code></pre>';
     };
+    renderer.table = function (header, body) {
+        return '<table class="table table-bordered table-hover table-striped table-condensed">' + header + body + '</table>';
+    };
     $("Document").ready(function () {
         if (editorLoaded) {
             return;
@@ -70,7 +73,7 @@
     <div class="form-group">
         <input class="form-control" type="text" name="articleTitle" id="articleTitle" placeholder="标题">
     </div>
-    <textarea id="editor" data-provide="markdown" data-savable="true" rows="50"></textarea>
+    <textarea id="editor" data-provide="markdown" data-savable="true" rows="42"></textarea>
 </form>
 <small class="text-info" id="saveInfo"></small>
 {% endblock %}
