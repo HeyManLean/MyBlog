@@ -57,3 +57,6 @@ body {
 .bs-callout-info h4 {
     color: #5bc0de;
 }
+.bs-callout-my {
+    border-left-color: #f98e32
+}

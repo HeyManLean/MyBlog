@@ -2,14 +2,19 @@
 <link rel="shortcut icon" href="{{ url_for('static', filename='images/lean-logo.png') }}" type="imgae/x-icon">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-markdown.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/hightlight.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 
 <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/jquery.cookie.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-<script src="{{ url_for('static', filename='js/marked.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/bootstrap-markdown.js') }}"></script>
+<script src="{{ url_for('static', filename='js/hightlight.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/marked.min.js') }}"></script>
 {% block scripts %}
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 <script>
     function timestamp2Date(timestamp) {
         var createTime = new Date(timestamp * 1000);
