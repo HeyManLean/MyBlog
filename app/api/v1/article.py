@@ -11,12 +11,12 @@ from app.utils.data import date2stamp
 class ArticlesResource(Resource):
     @login_required
     def get(self):
-        articles = Article.get_by_userid(current_user.id)
+        articles = current_user.articles
         articles_data = [
             dict(
                 id=a.id,
                 title=a.title,
-                html=a.html,
+                html=a.abscontent,
                 author=a.user.nickname,
                 create_time=date2stamp(a.create_time),
                 view_count=0)
