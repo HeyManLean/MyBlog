@@ -21,6 +21,7 @@
         return createTime.toLocaleDateString();
     }
     var isLoaded = false;
+    var categoryObj = {};
     $("Document").ready(function () {
         if (isLoaded) {
             return;
@@ -33,7 +34,8 @@
             if (nickname) {
                 loginText = nickname + "," +
                     "<a href='#' id='logoutLink' style='text-decoration: underline;'>登出</a>";
-                createLiText = "<a href='#' id='createLink'><strong>创作</strong></a>";
+                createLiText =
+                    "<a href='#' id='createLink' data-toggle='modal' data-target='#createModal' style='text-decoration: none;'><strong>创作</strong></a>";
                 $("#articleLi").html("<a href='/my-articles'><strong>我的文章</strong></a>");
             } else {
                 loginText =
@@ -61,22 +63,22 @@
                 });
             }));
             $("#createLi").html(createLiText);
-            $("#createLi").append($("#createLink").click(function () {
-                $.ajax({
-                    type: "post",
-                    url: "/api/v1/articles",
-                    dataType: "json",
-                    success: function (data, status) {
-                        if (data.code != 200) {
-                            alert("创建文章失败, 请稍后重试!");
-                        } else {
-                            var articleId = data.id;
-                            window.location.href = "/articles/" + articleId +
-                                "/write";
-                        }
-                    }
-                });
-            }));
+            // $("#createLi").append($("#createLink").click(function () {
+            //     $.ajax({
+            //         type: "post",
+            //         url: "/api/v1/articles",
+            //         dataType: "json",
+            //         success: function (data, status) {
+            //             if (data.code != 200) {
+            //                 alert("创建文章失败, 请稍后重试!");
+            //             } else {
+            //                 var articleId = data.id;
+            //                 window.location.href = "/articles/" + articleId +
+            //                     "/write";
+            //             }
+            //         }
+            //     });
+            // }));
         };
         setLoginText();
         $("#loginBtn").click(function () {
@@ -112,6 +114,36 @@
                 }
             });
         });
+        $.ajax({
+            url: "/api/v1/article_categories",
+            type: "get",
+            dataType: "json",
+            success: function (data, status) {
+                if (data.code == 200) {
+                    var $categoryMenu = $("#categoryMenu");
+                    var cdata = data.list;
+                    for (var i = 0, len = cdata.length; i < len; i++) {
+                        var item = cdata[i];
+                        $categoryMenu.append('<li class="dropdown-header">' + item.subject +
+                            '</li>');
+                        var clist = item.categories;
+                        for (var j = 0, clen = clist.length; j < clen; j++) {
+                            var citem = clist[j];
+                            var citemName = citem.name;
+                            var citemId = citem.id;
+                            var href = '/published_articles?category=' + citemId;
+                            $categoryMenu.append('<li><a href="' + href + '">' + citemName +
+                                '</a>');
+                            categoryObj[citemName] = citemId;
+                            $("#categoriesSelect").append('<option>' + citemName + '</option>');
+                        }
+                        if (i < len - 1) {
+                            $categoryMenu.append('<li class="divider"></li>');
+                        }
+                    }
+                }
+            }
+        });
         isLoaded = true;
     });
 </script>
@@ -145,29 +177,7 @@
                         <strong>分类</strong>
                         <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-header">
-                            编程语言
-                        </li>
-                        <li>
-                            <a href="#">python</a>
-                            <a href="#">javascript</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li class="dropdown-header">
-                            编程原理
-                        </li>
-                        <li>
-                            <a href="#">计算机网络</a>
-                            <a href="#">系统原理</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <strong>杂文</strong>
-                        <span class="badge">{{ update_count }}</span>
-                    </a>
+                    <ul class="dropdown-menu" id="categoryMenu"></ul>
                 </li>
                 <li id="createLi"></li>
                 <li id="articleLi"></li>
@@ -203,6 +213,41 @@
                         </div>
                         <div class="col-md-8 col-md-offset-2">
                             <button type="button" class="btn btn-info" id="loginBtn">登录</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="createModal" tabIndex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title text-center" id="createModalLabel">
+                    创作
+                </h4>
+            </div>
+            <div class="row modal-body" style="padding-top: 5px;">
+                <div class="col-md-10 col-md-offset-1">
+                    <form class="form" method="POST" id="createForm">
+                        <div style="height: 20px;">
+                            <small class="text-danger" id="createWarnText"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">标题</label>
+                            <input type="text" name="title" class="form-control" id="title" value="Untitled" placeholder="标题">
+                        </div>
+                        <div class="form-group">
+                            <label for="category">分类</label>
+                            <select class="form-control" id="categoriesSelect" name="category"></select>
+                        </div>
+                        <div class="col-md-offset-2">
+                            <button type="button" class="btn btn-info" id="createBtn">进入编辑</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         </div>
                     </form>

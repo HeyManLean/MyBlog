@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 
 from app import db
 from app.api.utils import get_params
-from app.models import Article
+from app.models import Article, ArticleCategory, PublishedArticle, Subject
 from app.utils.data import date2stamp
 
 
@@ -81,7 +81,7 @@ class ArticlesIdResource(Resource):
                 message="ok"
             )
         return data
-    
+
     @login_required
     def delete(self, id):
         article = Article.query.get(id)
@@ -98,4 +98,26 @@ class ArticlesIdResource(Resource):
                 message="ok"
             )
         return data
+
+
+class ArticleCategoriesResource(Resource):
+    def get(self):
+        categories_data = []
+        for item in Subject:
+            subject_name = item.value
+            categories = ArticleCategory.get_by_subject(subject_name)
+            if categories:
+                categories_data.append(dict(
+                    subject=subject_name,
+                    categories=[dict(
+                        id=c.id,
+                        name=c.name,
+                        css=c.css
+                    ) for c in categories]
+                ))
+        return dict(
+            list=categories_data,
+            code=200,
+            message="ok"
+        )
 
