@@ -21,7 +21,12 @@
                 $("#articleTitle").text(data.title);
                 $("#articleAtuhor").text(data.author);
                 $("#artcleCreateTime").text(timestamp2Date(data.create_time));
-                $("#articleHtml").html(data.html);
+                if (!data.html) {
+                    $("#articleHtml").html("<p>什么都没有呀~写点什么吧!</p>");
+                } else {
+                    $("#articleHtml").html(data.html);
+                }
+                
             }
         });
         articleLoaded = true;

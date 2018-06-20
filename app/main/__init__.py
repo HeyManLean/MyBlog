@@ -15,8 +15,7 @@ main = Blueprint('main', __name__)
 def index():
     now = datetime.now()
     return render_template(
-        'home.html',
-        update_count=5
+        'home.html'
     )
 
 

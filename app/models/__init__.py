@@ -1,2 +1,2 @@
-from .user import User
-from .article import Article
+from .user import *
+from .article import *

@@ -5,8 +5,11 @@ from flask_login import current_user
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 from app.utils.email import Mail
+from app.utils.article import MyHTMLParser
 from config import config
 
 
@@ -14,6 +17,8 @@ login_manager = LoginManager()
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 mail = Mail()
+parser = MyHTMLParser()
+admin = Admin(template_mode='bootstrap3')
 
 
 def create_app(config_name='testing'):
@@ -23,6 +28,7 @@ def create_app(config_name='testing'):
     bootstrap.init_app(app)
     db.init_app(app)
     mail.init_app(app)
+    admin.init_app(app)
 
     @app.before_request
     def before_request():
@@ -47,4 +53,11 @@ def create_app(config_name='testing'):
     
     from app.api import api
     app.register_blueprint(api)
+
+    from app.models import User, Article, ArticleCategory, PublishedArticle
+    admin.add_view(ModelView(User, db.session))
+    admin.add_view(ModelView(Article, db.session))
+    admin.add_view(ModelView(ArticleCategory, db.session))
+    admin.add_view(ModelView(PublishedArticle, db.session))
+
     return app

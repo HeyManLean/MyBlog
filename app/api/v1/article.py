@@ -4,19 +4,19 @@ from flask_login import login_required, current_user
 
 from app import db
 from app.api.utils import get_params
-from app.models import Article
+from app.models import Article, ArticleCategory, PublishedArticle, Subject
 from app.utils.data import date2stamp
 
 
 class ArticlesResource(Resource):
     @login_required
     def get(self):
-        articles = Article.get_by_userid(current_user.id)
+        articles = current_user.articles
         articles_data = [
             dict(
                 id=a.id,
                 title=a.title,
-                html=a.html,
+                html=a.abscontent,
                 author=a.user.nickname,
                 create_time=date2stamp(a.create_time),
                 view_count=0)
@@ -30,7 +30,15 @@ class ArticlesResource(Resource):
 
     @login_required
     def post(self):
-        new_article = Article.insert(current_user.id)
+        (title, category_id) = get_params([
+            Argument('title', type=str, required=True),
+            Argument('category_id', type=int, required=True)
+        ])
+        new_article = Article.insert(
+            current_user.id,
+            title,
+            category_id
+        )
         db.session.commit()
         data = dict(
             code=200,
@@ -54,6 +62,7 @@ class ArticlesIdResource(Resource):
                 message="ok",
                 title=article.title,
                 html=article.html,
+                category_id=article.category_id,
                 content=article.content,
                 author=article.user.nickname,
                 create_time=date2stamp(article.create_time)
@@ -69,19 +78,20 @@ class ArticlesIdResource(Resource):
                 message="The requested article is not found"
             )
         else:
-            (title, content, html) = get_params([
+            (title, content, html, category_id) = get_params([
                 Argument('title', type=str, required=True),
                 Argument('content', type=str, required=True),
-                Argument('html', type=str, required=True)
+                Argument('html', type=str, required=True),
+                Argument('category_id', type=int)
             ])
-            article.update(title, content, html)
+            article.update(title, content, html, category_id)
             db.session.commit()
             data = dict(
                 code=200,
                 message="ok"
             )
         return data
-    
+
     @login_required
     def delete(self, id):
         article = Article.query.get(id)
@@ -98,4 +108,26 @@ class ArticlesIdResource(Resource):
                 message="ok"
             )
         return data
+
+
+class ArticleCategoriesResource(Resource):
+    def get(self):
+        categories_data = []
+        for item in Subject:
+            subject_name = item.value
+            categories = ArticleCategory.get_by_subject(subject_name)
+            if categories:
+                categories_data.append(dict(
+                    subject=subject_name,
+                    categories=[dict(
+                        id=c.id,
+                        name=c.name,
+                        css=c.css
+                    ) for c in categories]
+                ))
+        return dict(
+            list=categories_data,
+            code=200,
+            message="ok"
+        )
 
