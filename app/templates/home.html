@@ -63,22 +63,23 @@
                 });
             }));
             $("#createLi").html(createLiText);
-            // $("#createLi").append($("#createLink").click(function () {
-            //     $.ajax({
-            //         type: "post",
-            //         url: "/api/v1/articles",
-            //         dataType: "json",
-            //         success: function (data, status) {
-            //             if (data.code != 200) {
-            //                 alert("创建文章失败, 请稍后重试!");
-            //             } else {
-            //                 var articleId = data.id;
-            //                 window.location.href = "/articles/" + articleId +
-            //                     "/write";
-            //             }
-            //         }
-            //     });
-            // }));
+            $("#createBtn").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/api/v1/articles",
+                    dataType: "json",
+                    data: $("#createForm").serialize(),
+                    success: function (data, status) {
+                        if (data.code != 200) {
+                            alert("创建文章失败, 请稍后重试!");
+                        } else {
+                            var articleId = data.id;
+                            window.location.href = "/articles/" + articleId +
+                                "/write";
+                        }
+                    }
+                });
+            });
         };
         setLoginText();
         $("#loginBtn").click(function () {
@@ -134,8 +135,8 @@
                             var href = '/published_articles?category=' + citemId;
                             $categoryMenu.append('<li><a href="' + href + '">' + citemName +
                                 '</a>');
-                            categoryObj[citemName] = citemId;
-                            $("#categoriesSelect").append('<option>' + citemName + '</option>');
+                            $("#categoriesSelect").append('<option value="' + citemId + '">' +
+                                citemName + '</option>');
                         }
                         if (i < len - 1) {
                             $categoryMenu.append('<li class="divider"></li>');
@@ -244,7 +245,7 @@
                         </div>
                         <div class="form-group">
                             <label for="category">分类</label>
-                            <select class="form-control" id="categoriesSelect" name="category"></select>
+                            <select class="form-control" id="categoriesSelect" name="category_id"></select>
                         </div>
                         <div class="col-md-offset-2">
                             <button type="button" class="btn btn-info" id="createBtn">进入编辑</button>

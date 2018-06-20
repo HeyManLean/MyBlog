@@ -35,9 +35,10 @@ class Article(db.Model):
         return '<Article %d>' % self.id
 
     @classmethod
-    def insert(cls, user_id, title='Untitled', content=None):
+    def insert(cls, user_id, title, category_id, content=None):
         new_article = Article()
         new_article.title = title
+        new_article.category_id = category_id
         new_article.content = content
         new_article.user_id = user_id
         if content:
@@ -46,10 +47,12 @@ class Article(db.Model):
         db.session.flush()
         return new_article
 
-    def update(self, title, content, html):
+    def update(self, title, content, html, category_id):
         self.title = title
         self.content = content
         self.html = html
+        if category_id:
+            self.category_id = category_id
         if content:
             self.abscontent = parser.get_abscontent(html)
         db.session.flush()

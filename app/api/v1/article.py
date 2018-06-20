@@ -30,7 +30,15 @@ class ArticlesResource(Resource):
 
     @login_required
     def post(self):
-        new_article = Article.insert(current_user.id)
+        (title, category_id) = get_params([
+            Argument('title', type=str, required=True),
+            Argument('category_id', type=int, required=True)
+        ])
+        new_article = Article.insert(
+            current_user.id,
+            title,
+            category_id
+        )
         db.session.commit()
         data = dict(
             code=200,
@@ -54,6 +62,7 @@ class ArticlesIdResource(Resource):
                 message="ok",
                 title=article.title,
                 html=article.html,
+                category_id=article.category_id,
                 content=article.content,
                 author=article.user.nickname,
                 create_time=date2stamp(article.create_time)
@@ -69,12 +78,13 @@ class ArticlesIdResource(Resource):
                 message="The requested article is not found"
             )
         else:
-            (title, content, html) = get_params([
+            (title, content, html, category_id) = get_params([
                 Argument('title', type=str, required=True),
                 Argument('content', type=str, required=True),
-                Argument('html', type=str, required=True)
+                Argument('html', type=str, required=True),
+                Argument('category_id', type=int)
             ])
-            article.update(title, content, html)
+            article.update(title, content, html, category_id)
             db.session.commit()
             data = dict(
                 code=200,
