@@ -1,0 +1,46 @@
+<div name="articleBox" aid="-1">
+    <div class="bs-callout bs-callout-my">
+        <div class="text-center">
+            {% if current_user.is_active and current_user.id == article.user_id %}
+                <div class="dropdown  pull-right">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/articles/{{ article.id }}/write" name="articleEdit">编辑</a>
+                        </li>
+                        <li>
+                            <a href="/" name="articleRevoke">取消发布</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a href="/" name="articleDelete">删除</a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+            <h4>
+                <a href="/articles/{{ article.id }}/read" name="articleTitle">{{ article.title }}</a>
+            </h4>
+            <small class="text-muted" name="articleCreateTime"></small>
+        </div>
+        <hr>
+        <div>{{ article.abscontent|safe }}</div>
+        <div>
+            <span class="label label-success">
+                <a href="#aboutme">{{ article.author.nickname }}</a>
+            </span>
+            <span>
+                &nbsp;
+                <small class="glyphicon glyphicon-eye-open"></small>
+                <small name="articleViews">{{ article.view_count }}</small>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <hr>
+        </div>
+    </div>
+</div>

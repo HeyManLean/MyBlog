@@ -96,56 +96,8 @@
     </div>
 </div>
 <div id="articleList">
-</div>
-<div id="articleListEmpty" class="hidden text-center">
-    <h1>空空如也!</h1>
-</div>
-<div id="articleTemplate" class="hidden">
-    <div name="articleBox" aid="-1">
-        <div class="bs-callout bs-callout-my">
-            <div class="text-center">
-                <div class="dropdown  pull-right">
-                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#" name="articleEdit">编辑</a>
-                        </li>
-                        <li>
-                            <a href="#" name="articleRevoke">取消发布</a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a href="#" name="articleDelete">删除</a>
-                        </li>
-                    </ul>
-                </div>
-                <h4>
-                    <a href="#" name="articleTitle"></a>
-                </h4>
-                <small class="text-muted" name="articleCreateTime"></small>
-            </div>
-            <hr>
-            <div>
-                <div name="articleHtml"></div>
-            </div>
-            <div>
-                <span class="label label-success">
-                    <a href="#aboutme" name="articleAuthorLink"></a>
-                </span>
-                <span>
-                    &nbsp;
-                    <small class="glyphicon glyphicon-eye-open"></small>
-                    <small name="articleViews"></small>
-                </span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4 col-sm-offset-4">
-                <hr>
-            </div>
-        </div>
-    </div>
+    {% for article in articles %}
+        {% include "components/item_content.html" %}
+    {% endfor %}
 </div>
 {% endblock %}

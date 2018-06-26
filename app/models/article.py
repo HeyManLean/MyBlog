@@ -18,6 +18,7 @@ class Article(db.Model):
     html = db.Column(db.Text)
     abscontent = db.Column(db.Text)
     user_id = db.Column(db.SmallInteger, db.ForeignKey('user.id'))
+
     status = db.Column(db.SmallInteger, default=ArticleStatus.NORMAL)
 
     published_id = db.Column(db.Integer, db.ForeignKey('published_article.id'))

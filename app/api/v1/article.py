@@ -64,7 +64,7 @@ class ArticlesIdResource(Resource):
                 html=article.html,
                 category_id=article.category_id,
                 content=article.content,
-                author=article.user.nickname,
+                author=article.author.nickname,
                 create_time=date2stamp(article.create_time)
             )
         return data

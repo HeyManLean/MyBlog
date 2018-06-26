@@ -6,6 +6,7 @@ from flask import render_template
 from flask_login import current_user
 
 from app import mail
+from app.models import Article
 
 
 main = Blueprint('main', __name__)
@@ -31,4 +32,5 @@ def articles_write(id):
 
 @main.route('/my-articles')
 def my_articles():
-    return render_template("list.html")
+    articles = Article.get_by_userid(current_user.id)
+    return render_template("list.html", current_user=current_user, articles=articles)
