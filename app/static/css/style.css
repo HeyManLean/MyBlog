@@ -60,3 +60,32 @@ body {
 .bs-callout-my {
     border-left-color: #f98e32
 }
+
+.display-label {
+    position: relative;
+    height: 100%;
+    min-height: inherit;
+    display: inline-block;
+}
+
+.display-menu {
+    display: none;
+    position: absolute;
+    width: 300px;
+    background: white;
+    border-right: 1px solid #eee;
+}
+
+.display-label:hover .display-menu {
+    display: block;
+}
+
+.display-toggle {
+    width: 100%;
+    background: white;
+}
+
+.display-label:hover .display-toggle {
+    width: 300px;
+    border-right: 1px solid #eee;
+}
