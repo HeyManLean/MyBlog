@@ -8,29 +8,29 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
-<body style="background: #eaeaea;">
+<body style="background: #eaeaea; font-size: 16px;">
     <header style="background: #26272b;">
-        <div class="row" style="padding: 30px 30px;">
-            <div class="col-sm-6 col-sm-offset-3">
-                <div class="pull-left">
-                    <img src="../../static/images/lean-logo.png" height="150px" width="150px" />
-                </div>
-                <div class="col-sm-6" style="color: white; margin-left: 10px;">
-                    <h1>Lean's Blog</h1>
-                    <p>横眉冷对千夫指, 俯首甘为孺子牛！</p>
-                    <small class="text-muted">昨天</small>
-                    <span class="label label-warning">迷茫</span>
-                    <small class="text-muted">今天</small>
-                    <span class="label label-info">努力</span>
-                    <small class="text-muted">明天</small>
-                    <span class="label label-success">收获</span>
-                </div>
-
+        <div class="container" style="padding: 30px 30px;">
+            <div class="pull-left" style="margin-right: 20px;">
+                <a href="/">
+                    <img src="../../static/images/lean-logo.png" height="120px" width="120px" />
+                </a>
             </div>
+            <div style="color: white; ">
+                <h1>Lean's Blog</h1>
+                <p>横眉冷对千夫指, 俯首甘为孺子牛！</p>
+                <small class="text-muted">昨天</small>
+                <span class="label label-warning">迷茫</span>
+                <small class="text-muted">今天</small>
+                <span class="label label-info">努力</span>
+                <small class="text-muted">明天</small>
+                <span class="label label-success">收获</span>
+            </div>
+
         </div>
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
-                <nav class="navbar navbar-inverse" style="margin-bottom: 0; background: #33363b;">
+        <div class="container" style="padding: 0;">
+            <nav class="navbar navbar-inverse" style="background: #33363b; margin-bottom: 0; border-radius: 0;">
+                <div class="container-fluid">
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li class="active">
@@ -44,18 +44,105 @@
                             </li>
                         </ul>
                     </div>
-                </nav>
-            </div>
+                </div>
+            </nav>
         </div>
-
     </header>
-    <div class="row" style="box-shadow: rgba(0,0,0,0.098) 0px 1px 1px 0px;">
-        <div class="col-sm-6 col-sm-offset-3" style="background: white; min-height: 100vh;">
-            <div class="row">
-                <div class="col-sm-4" style="background: #eaeaea;"></div>
-                <div class="col-sm-8"></div>
-            </div>
+    <div class="container" style="box-shadow: rgba(0,0,0,0.098) 0px 1px 1px 0px; min-height: 100vh; background: white;">
+        <div class="row" style="min-height: inherit;">
+            <div class="col-sm-3" style="min-height: inherit; background: #eeeeee;">
+                <div style="padding: 30px 10px 20px;">
+                    <h4>分类</h4>
+                    <ul type="none" style="padding: 0;">
+                        <li style="margin: 10px 0; padding-bottom: 10px; font-size: 15px; border-bottom: 1px solid #e4e4e4;" ;>
+                            <span class="text-muted">
+                                <span style="font-size: 8px;">
+                                    <span class="glyphicon glyphicon-triangle-right"></span>
+                                </span>
+                                <span>Python</span>
+                            </span>
+                        </li>
+                        <li style="margin: 10px 0; padding-bottom: 10px; font-size: 15px; border-bottom: 1px solid #e4e4e4;" ;>
+                            <span class="text-muted">
+                                <span style="font-size: 8px;">
+                                    <span class="glyphicon glyphicon-triangle-right"></span>
+                                </span>
+                                <span>Javascript</span>
+                            </span>
+                        </li>
+                        <li class="dropdown" style="margin: 10px 0; padding-bottom: 10px; font-size: 15px; border-bottom: 1px solid #e4e4e4;" ;>
+                            <a data-toggle="collapse" href="#collapse1">
+                                <span class="text-muted">
+                                    <span style="font-size: 8px;">
+                                        <span class="glyphicon glyphicon-triangle-right"></span>
+                                    </span>
+                                    <span>杂文</span>
+                                </span>
+                            </a>
+                            <ul id="collapse1" class="collapse" type="none" style="padding-left: 10px;">
+                                <li style="border-bottom: 1px solid #eee;">
+                                    <a href="#">
+                                        <div class="thumbnail">
+                                            <img src="../../static/images/code.png" class="pull-left">
+                                            <strong>蓝天感想</strong>
+                                            <p class="text-muted">蓝天是梦幻却最真实的存在!</p>
+                                        </div>
 
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a href="#">读鲁迅全集有感</a>
+                                </li>
+                                <li>
+                                    <a href="#">工作感想</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li style="margin: 10px 0; padding-bottom: 10px; font-size: 15px; border-bottom: 1px solid #e4e4e4;" ;>
+                            <span class="text-muted">
+                                <span style="font-size: 8px;">
+                                    <span class="glyphicon glyphicon-triangle-right"></span>
+                                </span>
+                                <span>Flask</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-9" style="padding: 0; min-height: inherit;">
+                <div style="padding: 18px 30px 17px;border-bottom: 1px solid #eee;">
+                    <strong style="color: grey;">MathJax示例</strong>
+                </div>
+                <div class="row" style="padding: 30px; border-bottom: 1px solid #eee;">
+                    <div class="col-sm-6">
+                        <div class="thumbnail" style="border: none;">
+                            <a href="#">
+                                <img src="../../static/images/code.png">
+                            </a>
+                            <div class="caption">
+                                <a href="#">
+                                    <h3>Thumbnail label</h3>
+                                </a>
+                                <p>...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="thumbnail" style="border: none;">
+                            <a href="#">
+                                <img src="../../static/images/code.png">
+                            </a>
+                            <div class="caption">
+                                <a href="#">
+                                    <h3>Thumbnail label</h3>
+                                </a>
+                                <p>...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
