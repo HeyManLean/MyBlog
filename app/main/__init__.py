@@ -16,7 +16,7 @@ main = Blueprint('main', __name__)
 def index():
     now = datetime.now()
     return render_template(
-        'home.html'
+        'components/header.html'
     )
 
 
