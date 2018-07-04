@@ -14,6 +14,20 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    return render_template(
-        'index.html'
-    )
+    articles = Article.query.all()
+    return render_template('index.html', articles=articles)
+
+
+@main.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@main.route('/categories')
+def categories():
+    return render_template('category.html')
+
+
+@main.route('/archives')
+def archives():
+    return render_template('archive.html')

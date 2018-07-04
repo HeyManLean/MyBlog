@@ -3,22 +3,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Lean's Blog</title>
-    <link type="image/x-icon" rel="shortcut icon" href="{{ url_for('static', filename='images/lean-logo1.png') }}">
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <title>LEAN</title>
+    <link type="image/x-icon" rel="shortcut icon" href="static/images/logo.png">
+    <link type="text/css" rel="stylesheet" href="static/css/style.css">
 </head>
 
 <body>
     <div class="wrap">
         <header>
-            <a href="/" class="logo-link">
-                <img src="{{ url_for('static', filename='images/lean-logo.png') }}" width="70px" height="70px">
+            <a href="/">
+                <span class="logo-link">LEAN</span>
             </a>
             <nav>
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="/">BLOG</a>
+                        <a href="/" class="active">BLOG</a>
                     </li>
                     <li class="nav-item">
                         <a href="/archives">ARCHIVE</a>
@@ -33,7 +32,12 @@
             </nav>
         </header>
         <section class="container">
-
+            <h1 class="section-title">Latest ...</h1>
+            <ul class="post-list">
+                {% for post in articles %}
+                    {% include "components/post-item.html" %}
+                {% endfor %}
+            </ul>
         </section>
         <footer>
         </footer>
