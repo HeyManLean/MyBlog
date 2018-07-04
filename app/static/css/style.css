@@ -1,91 +1,60 @@
+@font-face {
+    font-family: 'CabinSketch';
+    src: url('../font/CabinSketch-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: url('../font/Oswald-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'sourcesanspro';
+    src: url('../font/sourcesanspro.woff2');
+}
+
 body {
-    background-color: #f7f7f7;
-}
-.bs-callout {
-    padding: 20px;
-    margin: 20px 0;
-    border: 1px solid #eee;
-    border-left-width: 5px;
-    border-radius: 3px;
-}
-.bs-callout h4 {
-    margin-top: 0;
-    margin-bottom: 5px;
-}
-.bs-callout p:last-child {
-    margin-bottom: 0;
-}
-.bs-callout code {
-    border-radius: 3px;
-}
-.bs-callout+.bs-callout {
-    margin-top: -5px;
-}
-.bs-callout-default {
-    border-left-color: #777;
-}
-.bs-callout-default h4 {
-    color: #777;
-}
-.bs-callout-primary {
-    border-left-color: #428bca;
-}
-.bs-callout-primary h4 {
-    color: #428bca;
-}
-.bs-callout-success {
-    border-left-color: #5cb85c;
-}
-.bs-callout-success h4 {
-    color: #5cb85c;
-}
-.bs-callout-danger {
-    border-left-color: #d9534f;
-}
-.bs-callout-danger h4 {
-    color: #d9534f;
-}
-.bs-callout-warning {
-    border-left-color: #f0ad4e;
-}
-.bs-callout-warning h4 {
-    color: #f0ad4e;
-}
-.bs-callout-info {
-    border-left-color: #5bc0de;
-}
-.bs-callout-info h4 {
-    color: #5bc0de;
-}
-.bs-callout-my {
-    border-left-color: #f98e32
+    font-family: 'sourcesanspro', Arial, sans-serif;
+    color: #34495e;
 }
 
-.display-label {
-    position: relative;
-    height: 100%;
-    min-height: inherit;
-    display: inline-block;
+.wrap {
+    width: 800px;
+    margin: 0 auto;
 }
 
-.display-menu {
-    display: none;
-    position: absolute;
-    width: 300px;
-    background: white;
-    border-right: 1px solid #eee;
+header {
+    min-height: 70px;
 }
 
-.display-label:hover .display-menu {
-    display: block;
+@media screen and (min-width: 800px) {
+    header {
+        padding: 20px 100px;
+    }
 }
 
-.display-toggle {
-    width: 100%;
-    background: white;
+.logo-link {
+    float: left;
 }
 
-.display-label:hover .display-toggle {
-    width: 300px;
-    border-right: 1px solid #eee;
+.nav-list {
+    list-style: none;
+    margin-top: 30px;
+    float: right;
+    font-family: 'CabinSketch', 'Oswald', 'sourcesanspro', Arial, sans-serif;
+}
+
+.nav-item {
+    display: inline;
+    padding: 20px 10px;
+}
+
+.nav-item a {
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.nav-item a:hover {
+    border-bottom: 2px solid #42b983;
 }

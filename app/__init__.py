@@ -3,7 +3,6 @@ from flask import request
 from flask import render_template
 from flask_login import current_user
 from flask_login import LoginManager
-from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -14,7 +13,6 @@ from config import config
 
 
 login_manager = LoginManager()
-bootstrap = Bootstrap()
 db = SQLAlchemy()
 mail = Mail()
 parser = MyHTMLParser()
@@ -25,7 +23,6 @@ def create_app(config_name='testing'):
     app = Flask("Blog", static_folder='app/static', template_folder='app/templates')
     app.config.from_object(config[config_name])
     login_manager.init_app(app)
-    bootstrap.init_app(app)
     db.init_app(app)
     mail.init_app(app)
     admin.init_app(app)
