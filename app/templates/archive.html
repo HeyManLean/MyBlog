@@ -11,8 +11,8 @@
 <body>
     <div class="wrap">
         <header>
-            <a href="/">
-                <span class="logo-link">LEAN</span>
+            <a href="/" class="logo-link">
+                <span>LEAN</span>
             </a>
             <nav>
                 <ul class="nav-list">
@@ -32,9 +32,25 @@
             </nav>
         </header>
         <section class="container">
-
+            <div class="archive">
+                {% for archive in archives %}
+                <div class="archive-item">
+                    <h2 class="archive-title">{{ archive.date }} ...</h2>
+                    {% for post in archive.posts %}
+                    <div class="archive-post-item">
+                        <div class="archive-post-info">{{ dtimeformat(post.create_time) }}</div>
+                        <a class="archive-post-title-link" href="/posts/{{ post.id }}">{{ post.title }}</a>
+                    </div>
+                    {% endfor %}
+                </div>{% endfor %}
+            </div>
         </section>
         <footer>
+            <div class="copyright">
+                <p>
+                    © 2018 LEAN'S BLOG, powered by LEAN
+                </p>
+            </div>
         </footer>
     </div>
 </body>

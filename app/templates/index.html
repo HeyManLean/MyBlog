@@ -11,8 +11,8 @@
 <body>
     <div class="wrap">
         <header>
-            <a href="/">
-                <span class="logo-link">LEAN</span>
+            <a href="/" class="logo-link">
+                <span>LEAN</span>
             </a>
             <nav>
                 <ul class="nav-list">
@@ -35,11 +35,33 @@
             <h1 class="section-title">Latest ...</h1>
             <ul class="post-list">
                 {% for post in articles %}
-                    {% include "components/post-item.html" %}
+                <li class="post-item">
+                    <article>
+                        <h1>
+                            <a href="/posts/{{ post.id }}" class="post-title-link">
+                                {{ post.title }}
+                            </a>
+                        </h1>
+                        <div class="post-info">
+                            {{ dtimeformat(post.create_time) }}
+                        </div>
+                        <div class="post-content">
+                            {{ post.html|safe }}
+                        </div>
+                        <a href="/posts/{{ post.id }}" class="post-read-more">
+                            ...more
+                        </a>
+                    </article>
+                </li>
                 {% endfor %}
             </ul>
         </section>
         <footer>
+            <div class="copyright">
+                <p>
+                    © 2018 LEAN'S BLOG, powered by LEAN
+                </p>
+            </div>
         </footer>
     </div>
 </body>

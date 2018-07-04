@@ -11,8 +11,8 @@
 <body>
     <div class="wrap">
         <header>
-            <a href="/">
-                <span class="logo-link">LEAN</span>
+            <a href="/" class="logo-link">
+                <span>LEAN</span>
             </a>
             <nav>
                 <ul class="nav-list">
@@ -32,9 +32,25 @@
             </nav>
         </header>
         <section class="container">
-
+            <div class="category">
+                {% for category in categories %}
+                <div class="category-item">
+                    <h2 class="category-title">{{ category.name }}</h2>
+                    {% for post in category.posts %}
+                    <div class="category-post-item">
+                        <div class="category-post-info">{{ dtimeformat(post.create_time) }}</div>
+                        <a class="category-post-title-link" href="/posts/{{ post.id }}">{{ post.title }}</a>
+                    </div>
+                    {% endfor %}
+                </div>{% endfor %}
+            </div>
         </section>
         <footer>
+            <div class="copyright">
+                <p>
+                    © 2018 LEAN'S BLOG, powered by LEAN
+                </p>
+            </div>
         </footer>
     </div>
 </body>
