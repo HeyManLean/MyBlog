@@ -82,7 +82,7 @@ header {
     }
     body .archive-post-item,
     body .category-post-item {
-        font-size: 30px;
+        font-size: 32px;
     }
 }
 
@@ -178,14 +178,14 @@ post-list
 }
 
 .archive-title {
-    font-size: 3em;
+    font-size: 2em;
     font-weight: bold;
     color: rgb(0, 155, 202);
     font-family: 'CabinSketch';
 }
 
 .category-title {
-    font-size: 3em;
+    font-size: 2em;
     font-weight: bold;
     color: rgb(236, 142, 0);
     font-family: 'CabinSketch';
@@ -215,4 +215,16 @@ post-list
 .category-post-title-link:hover {
     border-bottom: 0;
     color: #267B54;
+}
+
+
+/* 
+About
+*/
+
+.big-logo {
+    font-size: 18em;
+    font-family: 'CabinSketch';
+    color: red;
+    text-align: center;
 }
