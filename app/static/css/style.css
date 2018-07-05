@@ -21,7 +21,7 @@
 body {
     font-family: 'sourcesanspro', Arial, sans-serif;
     color: #34495e;
-    font-size: 15px;
+    font-size: 16px;
     margin: 0;
     line-height: 1.6;
 }
@@ -84,6 +84,9 @@ header {
     body .category-post-item {
         font-size: 32px;
     }
+    section .big-logo {
+        font-size: 12em;
+    }
 }
 
 .logo-link {
@@ -118,6 +121,7 @@ header {
 }
 
 .copyright {
+    padding: 20px;
     border-top: 1px solid #ddd;
 }
 
@@ -223,8 +227,30 @@ About
 */
 
 .big-logo {
-    font-size: 18em;
+    font-size: 20em;
     font-family: 'CabinSketch';
     color: red;
     text-align: center;
+}
+
+/* 
+Post
+*/
+
+.post {
+    padding: 1em 0;
+}
+
+.post-title {
+    font-size: 2em;
+    padding-left: 15px;
+    border-left: #42b983 5px solid;
+}
+
+.post-content {
+    margin-top: 20px;
+}
+
+table td{
+    border: solid black 1px;
 }

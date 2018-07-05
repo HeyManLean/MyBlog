@@ -17,12 +17,12 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     articles = Article.query.all()
-    return render_template('index.html', articles=articles, dtimeformat=dtimeformat)
+    return render_template('base.html', articles=articles, dtimeformat=dtimeformat, location="home")
 
 
 @main.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('base.html', location="about")
 
 
 @main.route('/categories')
@@ -38,7 +38,7 @@ def categories():
                 posts=articles
             )
         )
-    return render_template('category.html', categories=categories, dtimeformat=dtimeformat)
+    return render_template('base.html', categories=categories, dtimeformat=dtimeformat, location="categories")
 
 
 @main.route('/archives')
@@ -55,4 +55,10 @@ def archives():
                 posts=articles
             )
         )
-    return render_template('archive.html', archives=archives, dtimeformat=dtimeformat)
+    return render_template('base.html', archives=archives, dtimeformat=dtimeformat, location="archives")
+
+
+@main.route('/posts/<int:id>')
+def post(id):
+    post = Article.query.get(id)
+    return render_template('base.html', post=post, location="posts", dtimeformat=dtimeformat)

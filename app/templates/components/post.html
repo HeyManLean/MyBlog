@@ -1,0 +1,12 @@
+<article class="post">
+    <h1 class="post-title">{{ post.title }}</h1>
+    <span class="post-info">
+        {{ dtimeformat(post.create_time) }}
+    </span>
+    <span class="post-category">
+        {{ post.category.name }}
+    </span>
+    <div class="post-content">
+        {{ post.html|safe }}
+    </div>
+</article>
