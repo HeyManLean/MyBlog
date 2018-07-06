@@ -1,10 +1,10 @@
 <div class="archive">
     {% for archive in archives %}
     <div class="archive-item">
-        <h2 class="archive-title">{{ archive.date }} ...</h2>
+        <h2 class="archive-title">{{ archive.date }}</h2>
         {% for post in archive.posts %}
         <div class="archive-post-item">
-            <div class="archive-post-info">{{ dtimeformat(post.create_time) }}</div>
+            <span class="archive-post-info">{{ post.create_time.date() }}</span>
             <a class="archive-post-title-link" href="/posts/{{ post.id }}">{{ post.title }}</a>
         </div>
         {% endfor %}

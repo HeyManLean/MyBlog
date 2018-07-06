@@ -9,7 +9,7 @@
                 </a>
             </h1>
             <div class="post-info">
-                {{ dtimeformat(post.create_time) }}
+                {{ post.create_time.date() }}
             </div>
             <div class="post-content">
                 {{ post.abscontent|safe }}

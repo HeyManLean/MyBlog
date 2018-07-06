@@ -77,15 +77,31 @@ header {
     section.container {
         margin: 2em 20px;
     }
-    body {
+    /* body {
         font-size: 30px;
     }
     body .archive-post-item,
     body .category-post-item {
         font-size: 32px;
-    }
+    } */
     section .big-logo {
         font-size: 12em;
+        border: none;
+    }
+    section .category-post-item,
+    section .archive-post-item {
+        padding: 0;
+        font-weight: bold;
+        /* font-size: 1.5em; */
+    }
+    section .archive-post-title-link,
+    section .category-post-title-link {
+        /* display: block; */
+        margin-left: 20px;
+    }
+    section .category,
+    section .archive {
+        margin: 0;
     }
 }
 
@@ -174,42 +190,51 @@ post-list
     margin-top: 20px;
     color: #42b983;
 }
-
+/* 
+Archive/Category
+*/
 .archive,
 .category {
-    margin: 5em 2em;
-    max-width: 550px;
+    margin: 5em 0 5em 5em;
+    /* max-width: 550px; */
 }
 
-.archive-title {
-    font-size: 2em;
-    font-weight: bold;
-    color: rgb(0, 155, 202);
-    font-family: 'CabinSketch';
+.archive-item,
+.category-item {
+    padding-bottom: 2em;
+    border-bottom: solid 1px #dadada;
 }
 
+.archive .archive-item:last-child,
+.category .category-item:last-child {
+    border: none;
+}
+
+/* .archive-title,
 .category-title {
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: bold;
     color: rgb(236, 142, 0);
     font-family: 'CabinSketch';
-}
+} */
 
-.archive-post-item,
-.category-post-item {
+
+.category-post-item,
+.archive-post-item {
     padding: 2px 0 0 50px;
-    font-size: 18px;
+    font-weight: bold;
+    /* font-size: 18px; */
 }
 
 .archive-post-info,
 .category-post-info {
-    float: left;
+    /* float: left; */
     color: #7f8c8d;
 }
 
 .archive-post-title-link,
 .category-post-title-link {
-    display: block;
+    /* display: block; */
     margin-left: 150px;
     color: #42b983;
     word-break: break-all;
@@ -231,6 +256,7 @@ About
     font-family: 'CabinSketch';
     color: red;
     text-align: center;
+    border: 1px solid black;
 }
 
 /* 

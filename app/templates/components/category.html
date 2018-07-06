@@ -4,7 +4,7 @@
         <h2 class="category-title">{{ category.name }}</h2>
         {% for post in category.posts %}
         <div class="category-post-item">
-            <div class="category-post-info">{{ dtimeformat(post.create_time) }}</div>
+            <span class="category-post-info">{{ post.create_time.date() }}</span>
             <a class="category-post-title-link" href="/posts/{{ post.id }}">{{ post.title }}</a>
         </div>
         {% endfor %}
