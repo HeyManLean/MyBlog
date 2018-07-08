@@ -26,6 +26,13 @@ body {
     line-height: 1.6;
 }
 
+
+html{
+    text-size-adjust: 250%;
+    -webkit-text-size-adjust: 250%;
+}
+
+
 html,
 body {
     width: 100%;
@@ -61,9 +68,9 @@ header {
         text-align: center;
         -webkit-padding-start: 0px;
     }
-    nav .nav-item a {
+    /* nav .nav-item a {
         font-size: 50px;
-    }
+    } */
     nav .nav-item {
         padding: 0 30px;
     }
@@ -90,7 +97,7 @@ header {
     }
     section .category-post-item,
     section .archive-post-item {
-        padding: 0;
+        padding: 0 0 20px;
         font-weight: bold;
         /* font-size: 1.5em; */
     }
@@ -190,9 +197,11 @@ post-list
     margin-top: 20px;
     color: #42b983;
 }
+
 /* 
 Archive/Category
 */
+
 .archive,
 .category {
     margin: 5em 0 5em 5em;
@@ -218,12 +227,11 @@ Archive/Category
     font-family: 'CabinSketch';
 } */
 
-
 .category-post-item,
 .archive-post-item {
     padding: 2px 0 0 50px;
-    font-weight: bold;
-    /* font-size: 18px; */
+    /* font-weight: bold; */
+    font-size: 18px;
 }
 
 .archive-post-info,
@@ -235,7 +243,7 @@ Archive/Category
 .archive-post-title-link,
 .category-post-title-link {
     /* display: block; */
-    margin-left: 150px;
+    margin-left: 50px;
     color: #42b983;
     word-break: break-all;
 }
@@ -244,8 +252,8 @@ Archive/Category
 .category-post-title-link:hover {
     border-bottom: 0;
     color: #267B54;
+    font-weight: bold;
 }
-
 
 /* 
 About
@@ -277,6 +285,6 @@ Post
     margin-top: 20px;
 }
 
-table td{
+table td {
     border: solid black 1px;
 }

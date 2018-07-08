@@ -15,6 +15,7 @@ flask-bootstrap = "*"
 flask-migrate = "*"
 flask-restful = "*"
 flask-admin = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.5"
