@@ -58,6 +58,3 @@ def create_app(config_name='testing'):
     admin.add_view(ModelView(PublishedArticle, db.session))
 
     return app
-
-
-app = create_app()
