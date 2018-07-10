@@ -44,7 +44,7 @@ ul {
     display: none;
 }
 
-.sidebar-item input[type="checkbox"]:checked + ul {
+.sidebar-item input[type="checkbox"]:checked ~ ul {
     display: block;
 }
 
@@ -57,7 +57,7 @@ ul {
     color: #393939;
 }
 
-.sidebar-item label.active{
+.sidebar-item label:active{
     background: #398dee;
     border: 1px solid #2280ed;
     border-color: #2280ed transparent;
