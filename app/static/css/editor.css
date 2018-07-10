@@ -27,11 +27,21 @@ ul {
     -webkit-user-select: none;
     /*webkit浏览器*/
     user-select: none;
+    float: left;
 }
 
 .sidebar-item,
 .sidebar-list {
     list-style: none;
+}
+
+.sidebar-list {
+    line-height: 40px;
+}
+
+.sidebar-item {
+    line-height: 60px;
+    
 }
 
 .sidebar-item label:hover, .sidebar-list li:hover {
@@ -49,12 +59,14 @@ ul {
 }
 
 .sidebar-item label {
-    display: block;
     margin: 0;
-    padding: 15px 40px;
+    padding-left: 40px;
     font-size: 16px;
     cursor: pointer;
     color: #393939;
+    display: inline-block;
+    width: 60%;
+    border-bottom: 1px solid #686868;
 }
 
 .sidebar-item label:active{
@@ -96,7 +108,7 @@ ul {
 }
 
 .sidebar-list li{
-    padding: 10px 50px;
+    padding-left: 50px;
     color: #686868
 }
 
@@ -119,15 +131,74 @@ ul {
     font-size: 20px;
 }
 
-.delete-category {
-    float: right;
-    font-size: 20px;
-}
 .create-category:hover {
     background-color: #398dee;
 }
 
-.delete-category:hover {
+.delete-category:hover, .edit-category:hover {
     color: black;
     font-weight: bold;
+    cursor: pointer;
+}
+
+.delete-category, .edit-category {
+    display: inline-block;
+    font-size: 12px;
+}
+
+
+/*
+editor
+*/
+
+.title-input {
+    border-style: none;
+    border-right: 1px solid #e0e1e5;
+    font-size: 20px;
+    line-height: 62px;
+    padding-left: 20px;
+    width: 50%;
+}
+
+.edit-menu {
+    position: absolute;
+    top: 64px;
+    left: 300px;
+    bottom: 2px;
+    right: 0;
+}
+
+.content {
+    display: flex;
+    height: 100%;
+}
+
+.edit-content {
+    flex: 1;
+    display: block;
+    background-color: #fefff7;
+    height: 100%;
+    font-size: 16px;
+    padding: 0;
+}
+
+.show-content {
+    flex: 1;
+    border: 1px solid #686868;
+    height: 100%;
+    font-size: 16px;
+}
+
+.save-content, .publish-content, .delete-content {
+    float: right;
+    font-size: 18px;
+    line-height: 62px;
+    padding-right: 20px;
+    color: #393939;
+}
+
+.save-content:hover, .publish-content:hover, .delete-content:hover {
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
 }
