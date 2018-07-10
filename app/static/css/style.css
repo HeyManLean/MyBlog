@@ -1,22 +1,13 @@
 @font-face {
     font-family: 'CabinSketch';
-    src: url('../font/CabinSketch-Bold.ttf');
-}
-
-@font-face {
-    font-family: 'Oswald';
-    src: url('../font/Oswald-Bold.ttf');
+    src: url('../fonts/CabinSketch-Bold.ttf');
 }
 
 @font-face {
     font-family: 'sourcesanspro';
-    src: url('../font/sourcesanspro.woff2');
+    src: url('../fonts/sourcesanspro.woff2');
 }
 
-@font-face {
-    font-family: 'Courgette';
-    src: url('../font/Courgette-Regular.ttf')
-}
 
 body {
     font-family: 'sourcesanspro', Arial, sans-serif;
@@ -49,7 +40,7 @@ a {
 
 header {
     min-height: 70px;
-    font-family: 'CabinSketch', 'Oswald', 'sourcesanspro', Arial, sans-serif;
+    font-family: 'CabinSketch', 'sourcesanspro', Arial, sans-serif;
 }
 
 @media screen and (min-width: 1000px) {

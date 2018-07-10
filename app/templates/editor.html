@@ -5,42 +5,54 @@
     <meta charset="UTF-8">
     <title>LEAN-EDITOR</title>
     <link type="image/x-icon" rel="shortcut icon" href="/static/images/logo.png">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/static/css/editor.css">
+    
 </head>
 
 <body>
-    <div class="side-bar">
-        <button class="create-post">+新文章</button>
-        <ul class="side-bar-list">
+    <div class="sidebar">
+        <div class="hd">
+            <div class="create">
+                <span class="create-icon">+</span>
+                <span class="create-text">新文档</span>
+            </div>
+        </div>
+        <div class="category-header">
+            <span>文集列表</span>
+            <button class="create-category">+</button>
+        </div>
+        <ul class="sidebar-item">
             <li>
-                <label for="c1"><span class="category-label">文集1</span></label>
+                <label for="c1" class="category-label">文集1
+                    <span class="delete-category">×</span>
+                </label>
                 <input type="checkbox" name="c1" id="c1" value="1">
-
-                <ul class="side-bar-list-item">
+                <ul class="sidebar-list">
                     <li>
-                        <a href="#1">文章1</a>
+                        <div cid=1>文章1</div>
                     </li>
                     <li>
-                        <a href="#2">文章2</a>
+                        <div cid=2>文章1</div>
                     </li>
                     <li>
-                        <a href="#3">文章3</a>
+                        <div cid=3>文章1</div>
                     </li>
                 </ul>
             </li>
             <li>
-                <label for="c2" class="category-label">文集2</label>
+                <label for="c2" class="category-label active">文集1
+                    <span class="delete-category">...</span></label>
                 <input type="checkbox" name="c2" id="c2" value="2">
-
-                <ul class="side-bar-list-item">
+                <ul class="sidebar-list">
                     <li>
-                        <a href="#1">文章1</a>
+                        <div cid=1>文章1</div>
                     </li>
                     <li>
-                        <a href="#2">文章2</a>
+                        <div cid=2>文章1</div>
                     </li>
-                    <li>
-                        <a href="#3">文章3</a>
+                    <li class="active">
+                        <div cid=3>文章1</div>
                     </li>
                 </ul>
             </li>
