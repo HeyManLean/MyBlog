@@ -1,10 +1,17 @@
+@font-face {
+    font-family: 'sourcesanspro';
+    src: url('../fonts/sourcesanspro.woff2');
+}
+
+
 html,
 body {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
 }
 
 body {
+    font-family: 'sourcesanspro', Arial, Helvetica, sans-serif;
     font-size: 16px;
     margin: 0;
     line-height: 1.6;
@@ -163,21 +170,21 @@ editor
 
 .edit-content {
     flex: 1;
-    display: block;
     background-color: #2D2D2D;
-    height: 100%;
+    height: 95vh;
     font-size: 16px;
-    padding: 0;
     resize: none;
     color: white;
-    padding: 20px 0 0 20px;
+    padding: 10px 0 0 20px;
 }
 
 .show-content {
     flex: 1;
     border: 1px solid #686868;
-    height: 100%;
+    height: 95vh;
     font-size: 16px;
+    overflow-y: auto;
+    padding-left: 20px;
 }
 
 .save-content,
@@ -208,43 +215,49 @@ editor
 
 .editor {
     flex: 1;
-    display: flex;
-    display: -webkit-flex;
-    flex-direction: column;
 }
 
 .title-menu {
     user-select: none;
+    height: 5vh;
 }
 
 .edit-menu {
-    flex: 1;
+    height: 95vh;
 }
 
 .editor-tip {
     display: inline-block;
-    height: 100%;
+    line-height: 62px;
     padding-left: 10px;
     font-size: 14px;
     color: #02b17c;
-    width: 200px;
 }
 
-.content #toggle-input {
+.publish-tip {
+    display: inline-block;
+    line-height: 64px;
+    padding: 0 10px;
+    font-size: 14px;
+    color: #0391bd;
+}
+
+.content #toggleInput {
     display: none;
 }
 
 .toggle-label {
-    height: 100%;
-    width: 20px;
+    height: auto;
+    width: 16px;
     text-align: center;
     background-color: rgb(153, 153, 153);
 }
+
 .toggle-label:hover {
     background-color: rgba(122, 167, 219, 0.4);
     cursor: pointer;
 }
 
-input#toggle-input:checked+.show-content {
+input#toggleInput:checked+.show-content {
     display: none;
 }

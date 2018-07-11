@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <title>LEAN-EDITOR</title>
     <link type="image/x-icon" rel="shortcut icon" href="/static/images/logo.png">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/static/css/editor.css">
 
+    <script src="/static/js/hightlight.min.js"></script>
+    <script src="/static/js/marked.min.js"></script>
+    <script src="/static/js/editor.js"></script>
 </head>
 
 <body>
@@ -90,8 +92,9 @@
         </div>
         <div class="editor">
             <div class="title-menu">
-                <input type="text" placeholder="标题" class="title-input">
-                <div class="editor-tip">已发布</div>
+                <input type="text" placeholder="标题" class="title-input" id="titleInput">
+                <div class="publish-tip">已发布</div>
+                <div class="editor-tip">保存成功!</div>
                 <div class="unpublish-content">取消发布</div>
                 <div class="delete-content">删除</div>
                 <div class="publish-content">发布</div>
@@ -99,10 +102,10 @@
             </div>
             <div class="edit-menu">
                 <div class="content">
-                    <textarea class="edit-content"></textarea>
-                    <label class="toggle-label" for="toggle-input"></label>
-                    <input type="checkbox" id="toggle-input" name="toggle-input">
-                    <div class="show-content"></div>
+                    <textarea class="edit-content" id="editContent" onchange="text2HTML(this)"></textarea>
+                    <label class="toggle-label" for="toggleInput"></label>
+                    <input type="checkbox" id="toggleInput" name="toggle-input">
+                    <div class="show-content" id="showContent"></div>
                 </div>
             </div>
         </div>
