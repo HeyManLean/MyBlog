@@ -10,6 +10,11 @@ body {
     line-height: 1.6;
 }
 
+* {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
 ul {
     margin: 0;
     padding: 0;
@@ -19,15 +24,11 @@ ul {
 .sidebar {
     width: 300px;
     height: 100%;
-    position: relative;
     border-right: 1px solid #e0e1e5;
     background-color: #f5f5f5;
     -moz-user-select: none;
-    /*火狐*/
     -webkit-user-select: none;
-    /*webkit浏览器*/
     user-select: none;
-    float: left;
 }
 
 .sidebar-item,
@@ -45,7 +46,7 @@ ul {
 }
 
 .sidebar-item label:hover, .sidebar-list li:hover {
-    background: #e4edf8;
+    background: #b7d2f3;
     cursor: pointer;
 }
 
@@ -65,14 +66,13 @@ ul {
     cursor: pointer;
     color: #393939;
     display: inline-block;
-    width: 60%;
+    width: 100%;
     border-bottom: 1px solid #686868;
 }
 
-.sidebar-item label:active{
+.sidebar-item label.active{
     background: #398dee;
-    border: 1px solid #2280ed;
-    border-color: #2280ed transparent;
+    border: 1px solid #006de9;
     color: #fff;
 }
 
@@ -113,37 +113,29 @@ ul {
 }
 
 .sidebar-list li.active {
-    background-color: #eaf0fb;
+    background-color: #b7d2f3;
 }
 
 .category-header {
     height: 25px;
+    line-height: 25px;
     font-size: 12px;
     background-color: #152e4b;
     color: white;
 }
 
-.create-category {
+.create-category, .edit-category, .delete-category {
     float: right;
     background-color: #152e4b;
     color: white;
     border: none;
-    font-size: 20px;
-}
-
-.create-category:hover {
-    background-color: #398dee;
-}
-
-.delete-category:hover, .edit-category:hover {
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.delete-category, .edit-category {
-    display: inline-block;
     font-size: 12px;
+    height: 100%;
+}
+
+.create-category:hover, .edit-category:hover, .delete-category:hover {
+    background-color: #398dee;
+    cursor: pointer;
 }
 
 
@@ -160,14 +152,6 @@ editor
     width: 50%;
 }
 
-.edit-menu {
-    position: absolute;
-    top: 64px;
-    left: 300px;
-    bottom: 2px;
-    right: 0;
-}
-
 .content {
     display: flex;
     height: 100%;
@@ -176,10 +160,13 @@ editor
 .edit-content {
     flex: 1;
     display: block;
-    background-color: #fefff7;
+    background-color: #2D2D2D;
     height: 100%;
     font-size: 16px;
     padding: 0;
+    resize: none;
+    color: white;
+    padding: 20px;
 }
 
 .show-content {
@@ -189,7 +176,7 @@ editor
     font-size: 16px;
 }
 
-.save-content, .publish-content, .delete-content {
+.save-content, .publish-content, .delete-content, .unpublish-content {
     float: right;
     font-size: 18px;
     line-height: 62px;
@@ -197,8 +184,26 @@ editor
     color: #393939;
 }
 
-.save-content:hover, .publish-content:hover, .delete-content:hover {
+.save-content:hover, .publish-content:hover, .delete-content:hover, .unpublish-content:hover {
     color: black;
     font-weight: bold;
     cursor: pointer;
+}
+
+.main {
+    display: flex;
+    display: -webkit-flex;
+    height: 100vh;
+
+}
+
+.editor {
+    flex: 1;
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+}
+
+.edit-menu {
+    flex: 1;
 }

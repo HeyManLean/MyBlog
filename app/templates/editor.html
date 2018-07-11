@@ -11,47 +11,60 @@
 </head>
 
 <body>
-    <div class="sidebar">
-        <div class="hd">
-            <div class="create">
-                <span class="create-icon">+</span>
-                <span class="create-text">新文档</span>
+    <div class="main">
+        <div class="sidebar">
+            <div class="hd">
+                <div class="create">
+                    <span class="create-icon">+</span>
+                    <span class="create-text">新文档</span>
+                </div>
             </div>
+            <div class="category-header">
+                <span class="category-title">文集列表</span>
+                <button class="delete-category">删除</button>
+                <button class="edit-category">编辑</button>
+                <button class="create-category">新建</button>
+            </div>
+            <ul class="sidebar-item">
+                <li>
+                    <input type="checkbox" name="c1" id="c1" value="1">
+                    <label for="c1" class="category-label">文集1</label>
+                    <ul class="sidebar-list">
+                        <li>
+                            <div cid=1>文章1</div>
+                        </li>
+                        <li>
+                            <div cid=2>文章1</div>
+                        </li>
+                        <li>
+                            <div cid=3>文章1</div>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" name="c2" id="c2" value="2">
+                    <label for="c2" class="category-label active">文集2</label>
+                    <ul class="sidebar-list">
+                        <li>
+                            <div cid=1>文章1</div>
+                        </li>
+                        <li>
+                            <div cid=2>文章1</div>
+                        </li>
+                        <li class="active">
+                            <div cid=3>文章1</div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-        <div class="category-header">
-            <span>文集列表</span>
-            <button class="create-category">+</button>
-        </div>
-        <ul class="sidebar-item">
-            <li>
-
-                <input type="checkbox" name="c2" id="c2" value="2">
-                <label for="c2" class="category-label">文集1
-
-                </label>
-                <div class="edit-category">编辑</div>
-                <div class="delete-category">删除</div>
-                <ul class="sidebar-list">
-                    <li>
-                        <div cid=1>文章1</div>
-                    </li>
-                    <li>
-                        <div cid=2>文章1</div>
-                    </li>
-                    <li class="active">
-                        <div cid=3>文章1</div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <div class="editor">
-        <form>
+        <div class="editor">
             <div class="title-menu">
                 <input type="text" placeholder="标题" class="title-input">
-                <div class="save-content">保存</div>
-                <div class="publish-content">发布</div>
+                <div class="unpublish-content">取消发布</div>
                 <div class="delete-content">删除</div>
+                <div class="publish-content">发布</div>
+                <div class="save-content">保存</div>
             </div>
             <div class="edit-menu">
                 <div class="content">
@@ -59,7 +72,7 @@
                     <div class="show-content"></div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </body>
 
