@@ -1,3 +1,5 @@
+// marked相关
+
 var renderer = new marked.Renderer()
 
 marked.setOptions({
@@ -27,4 +29,9 @@ renderer.code = function (code, language) {
 function text2HTML(target) {
     var markedHtml = marked(target.value);
     document.querySelector("#showContent").innerHTML = markedHtml;
+}
+
+// category相关
+function setCateoryList() {
+    
 }
