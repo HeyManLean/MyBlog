@@ -150,52 +150,64 @@ ul {
     cursor: pointer;
 }
 
-/*
-editor
-*/
+.main {
+    display: flex;
+    display: -webkit-flex;
+    height: 100vh;
+}
+
+/* editor */
+.editor {
+    flex: 1;
+}
+
+
+
+/* title */
+.title-menu {
+    user-select: none;
+    height: 6vh;
+}
 
 .title-input {
     border-style: none;
     border-right: 1px solid #e0e1e5;
     font-size: 20px;
-    line-height: 62px;
+    /* line-height: 62px; */
     padding-left: 20px;
-    width: 50%;
-}
-
-.content {
-    display: flex;
+    width: 30%;
     height: 100%;
 }
 
-.edit-content {
-    flex: 1;
-    background-color: #2D2D2D;
-    height: 95vh;
-    font-size: 16px;
-    resize: none;
-    color: white;
-    padding: 10px 0 0 20px;
+.edit-menu {
+    height: 94vh;
 }
 
-.show-content {
-    flex: 1;
-    border: 1px solid #686868;
-    height: 95vh;
-    font-size: 16px;
-    overflow-y: auto;
-    padding-left: 20px;
+.editor-tip {
+    display: inline-block;
+    /* line-height: 62px; */
+    padding-left: 2px;
+    font-size: 14px;
+    color: #02b17c;
+}
+
+.publish-tip {
+    display: inline-block;
+    /* line-height: 64px; */
+    padding: 0 2px;
+    font-size: 14px;
+    color: #0391bd;
 }
 
 .save-content,
 .publish-content,
 .delete-content,
 .unpublish-content {
-    float: right;
-    font-size: 18px;
-    line-height: 62px;
-    padding-right: 20px;
+    /* float: right; */
+    font-size: 14px;
+    padding: 15px 2px;
     color: #393939;
+    display: inline-block;
 }
 
 .save-content:hover,
@@ -207,39 +219,10 @@ editor
     cursor: pointer;
 }
 
-.main {
+/* content */
+.content {
     display: flex;
-    display: -webkit-flex;
-    height: 100vh;
-}
-
-.editor {
-    flex: 1;
-}
-
-.title-menu {
-    user-select: none;
-    height: 5vh;
-}
-
-.edit-menu {
-    height: 95vh;
-}
-
-.editor-tip {
-    display: inline-block;
-    line-height: 62px;
-    padding-left: 10px;
-    font-size: 14px;
-    color: #02b17c;
-}
-
-.publish-tip {
-    display: inline-block;
-    line-height: 64px;
-    padding: 0 10px;
-    font-size: 14px;
-    color: #0391bd;
+    height: 100%;
 }
 
 .content #toggleInput {
@@ -247,7 +230,7 @@ editor
 }
 
 .toggle-label {
-    height: auto;
+    /* height: auto; */
     width: 16px;
     text-align: center;
     background-color: rgb(153, 153, 153);
@@ -260,4 +243,24 @@ editor
 
 input#toggleInput:checked+.show-content {
     display: none;
+}
+
+.edit-content {
+    flex: 1;
+    width: 0;
+    background-color: #2D2D2D;
+    font-size: 16px;
+    resize: none;
+    color: white;
+    padding: 10px 0 0 20px;
+    overflow: scroll;
+}
+
+.show-content {
+    flex: 1;
+    width: 0;
+    border: 1px solid #686868;
+    font-size: 16px;
+    overflow: scroll;
+    padding-left: 20px;
 }
