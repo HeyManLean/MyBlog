@@ -270,3 +270,15 @@ input#toggleInput:checked+.show-content {
     overflow: scroll;
     padding-left: 20px;
 }
+
+/* category-catalog */
+.category-catalog {
+    display: none;
+    width: 400px;
+    height: 300px;
+    background: white;
+    border: 1px solid black;
+    position: fixed;
+    top: 65px;
+    left: 300px;
+}

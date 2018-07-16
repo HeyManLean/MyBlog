@@ -119,3 +119,11 @@ class ArticleCategory(db.Model):
         return cls.query.filter_by(
             subject=subject
         ).all()
+
+    @classmethod
+    def insert(cls, name):
+        new_category = cls()
+        new_category.name = name
+        db.session.add(new_category)
+        db.session.flush()
+        return new_category

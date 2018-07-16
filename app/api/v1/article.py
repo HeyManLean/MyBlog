@@ -61,10 +61,8 @@ class ArticlesIdResource(Resource):
                 code=200,
                 message="ok",
                 title=article.title,
-                html=article.html,
                 category_id=article.category_id,
                 content=article.content,
-                author=article.author.nickname,
                 create_time=date2stamp(article.create_time)
             )
         return data
@@ -132,5 +130,16 @@ class ArticleCategoriesResource(Resource):
             data=categories_data,
             code=200,
             message="ok"
+        )
+    
+    def post(self):
+        (name, ) = get_params([
+            Argument('name', type=str, required=True)
+        ])
+        new_category = ArticleCategory.insert(name)
+        return dict(
+            id=new_category.id,
+            code=200,
+            message='ok'
         )
 

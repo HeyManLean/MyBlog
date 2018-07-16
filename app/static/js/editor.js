@@ -47,23 +47,53 @@ function ajaxRequest(obj) {
     req.send();
 }
 
-function clickCategoryLabel (item) {
+
+function showCategoryCatalog() {
+    var categoryCatalog = document.querySelector(".category-catalog");
+    categoryCatalog.style.display = "block";
+}
+
+
+function setArticleContent(aid) {
+    ajaxRequest({
+        method: "get",
+        url: "/api/v1/articles/" + aid,
+        aync: true,
+        success: function (response) {
+            var editTitleInput = document.getElementById("titleInput");
+            editTitleInput.value = response.title;
+            var editContent = document.getElementById("editContent");
+            editContent.value = response.content;
+            text2HTML(editContent);
+        },
+        fail: function (status) {
+            alert(status);
+        }
+    });
+}
+
+function clickCategoryLabel(item) {
     var cLabels = document.querySelectorAll("label.category-label");
-    for (var i=0, len=cLabels.length; i < len; i++) {
+    for (var i = 0, len = cLabels.length; i < len; i++) {
         var cLabel = cLabels.item(i);
         cLabel.className = "category-label";
     }
     item.className = "category-label active";
 }
 
-function clickArticleItem (item) {
+function clickArticleItem(item) {
     var aItems = document.querySelectorAll(".sidebar-list li");
-    for (var i=0, len=aItems.length; i < len; i++) {
+    for (var i = 0, len = aItems.length; i < len; i++) {
         var aItem = aItems.item(i);
         aItem.className = "";
     }
     item.className = "active";
+    setArticleContent(item.getAttribute("aid"));
+    var parentLabel = item.parentNode.previousSibling;
+    clickCategoryLabel(parentLabel);
 }
+
+
 
 // category相关
 function setCateoryList() {
@@ -88,10 +118,9 @@ function setCateoryList() {
                     var a = cArticles[ai];
                     var aId = a.id;
                     var aTitle = a.title;
-                    cListHtml += '<li onclick="clickArticleItem(this)"><div aid=' + aId + '>' + aTitle + '</div>'
+                    cListHtml += '<li onclick="clickArticleItem(this)" aid=' + aId + '><div>' + aTitle + '</div>'
                 }
                 cListHtml += '</ul></li>';
-                console.log(cId);
             }
             var sidebarItem = document.querySelector("ul.sidebar-item");
             sidebarItem.innerHTML = cListHtml;
@@ -102,6 +131,9 @@ function setCateoryList() {
     });
 }
 
+
 window.onload = function () {
     setCateoryList();
 }
+
+// var a = document.querySelector(".sidebar-item input[type='checkbox']:checked");
