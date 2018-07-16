@@ -189,6 +189,9 @@ ul {
     padding-left: 2px;
     font-size: 14px;
     color: #02b17c;
+    position: absolute;
+    top: 2px;
+    right: 4em;
 }
 
 .publish-tip {
@@ -197,6 +200,9 @@ ul {
     padding: 0 2px;
     font-size: 14px;
     color: #0391bd;
+    position: absolute;
+    top: 2px;
+    right: 2px;
 }
 
 .save-content,

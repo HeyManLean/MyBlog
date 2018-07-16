@@ -64,6 +64,12 @@ class Article(db.Model):
         return cls.query.filter_by(
             user_id=user_id
         ).all()
+    
+    @classmethod
+    def get_by_categoryid(cls, category_id):
+        return cls.query.filter_by(
+            category_id=category_id,
+            status=ArticleStatus.NORMAL).all()
 
 
 class PublishedArticle(db.Model):

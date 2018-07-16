@@ -113,20 +113,23 @@ class ArticlesIdResource(Resource):
 class ArticleCategoriesResource(Resource):
     def get(self):
         categories_data = []
-        for item in Subject:
-            subject_name = item.value
-            categories = ArticleCategory.get_by_subject(subject_name)
-            if categories:
-                categories_data.append(dict(
-                    subject=subject_name,
-                    categories=[dict(
-                        id=c.id,
-                        name=c.name,
-                        css=c.css
-                    ) for c in categories]
-                ))
+        categories = ArticleCategory.query.all()
+        for c in categories:
+            categories_data.append(
+                dict(
+                    name=c.name,
+                    id=c.id,
+                    articles=[
+                        dict(
+                            title=a.title,
+                            # content=a.content,
+                            id=a.id)
+                        for a in Article.get_by_categoryid(c.id)
+                    ]
+                )
+            )
         return dict(
-            list=categories_data,
+            data=categories_data,
             code=200,
             message="ok"
         )
