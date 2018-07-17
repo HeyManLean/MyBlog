@@ -9,7 +9,7 @@ from app.utils.data import date2stamp
 
 
 class ArticlesResource(Resource):
-    @login_required
+    # @login_required
     def get(self):
         articles = current_user.articles
         articles_data = [
@@ -28,14 +28,14 @@ class ArticlesResource(Resource):
         )
         return data
 
-    @login_required
+    # @login_required
     def post(self):
         (title, category_id) = get_params([
             Argument('title', type=str, required=True),
             Argument('category_id', type=int, required=True)
         ])
         new_article = Article.insert(
-            current_user.id,
+            # current_user.id,
             title,
             category_id
         )
@@ -67,7 +67,7 @@ class ArticlesIdResource(Resource):
             )
         return data
 
-    @login_required
+    # @login_required
     def put(self, id):
         article = Article.query.get(id)
         if not article:
@@ -90,7 +90,7 @@ class ArticlesIdResource(Resource):
             )
         return data
 
-    @login_required
+    # @login_required
     def delete(self, id):
         article = Article.query.get(id)
         if not article:

@@ -168,14 +168,16 @@ function clickCategoryLabel(item) {
     item.className = "category-label active";
 }
 
-function clickArticleItem(item) {
+function clickArticleItem(item, reset=true) {
     var aItems = document.querySelectorAll(".sidebar-list li");
     for (var i = 0, len = aItems.length; i < len; i++) {
         var aItem = aItems.item(i);
         aItem.className = "";
     }
     item.className = "active";
-    setArticleContent(item.getAttribute("aid"));
+    if (reset){
+        setArticleContent(item.getAttribute("aid"));
+    }
     var parentLabel = item.parentNode.previousSibling;
     clickCategoryLabel(parentLabel);
 }
@@ -204,7 +206,7 @@ function setCateoryList() {
                     var a = cArticles[ai];
                     var aId = a.id;
                     var aTitle = a.title;
-                    cListHtml += '<li onclick="clickArticleItem(this)" aid=' + aId + '><div>' + aTitle + '</div>'
+                    cListHtml += '<li onclick="clickArticleItem(this);" aid=' + aId + '><div>' + aTitle + '</div></li>'
                 }
                 cListHtml += '</ul></li>';
             }
@@ -239,17 +241,38 @@ function setArticleContent(aid) {
 
 
 function createArticle() {
+    var selectLabel = document.querySelector(".sidebar-item label.active");
+    var selectCategory = selectLabel.previousSibling;
+    var currentUl = selectLabel.nextSibling;
+    var aTitle = "Untitled Article"
     ajaxRequest({
         method: "post",
         url: "/api/v1/articles",
         async: true,
+        data: {
+            category_id: selectCategory.value,
+            title: aTitle
+        },
         success: function (response) {
-
+            var aId = response.id;
+            var editTitleInput = document.getElementById("titleInput");
+            editTitleInput.value = aTitle;
+            var aLi = document.createElement("li");
+            aLi.setAttribute("onclick", "clickArticleItem(this);");
+            aLi.setAttribute('aid', aId);
+            aLi.innerHTML = '<div>' + aTitle + '</div>'
+            currentUl.appendChild(aLi);
+            clickArticleItem(aLi, false);
         },
         fail: function (status) {
             alert(status);
         }
     });
+}
+
+
+function modifyArticle() {
+
 }
 
 window.onload = function () {

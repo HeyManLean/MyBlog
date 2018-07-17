@@ -35,12 +35,12 @@ class Article(db.Model):
         return '<Article %d>' % self.id
 
     @classmethod
-    def insert(cls, user_id, title, category_id, content=None):
+    def insert(cls, title, category_id, user_id=None, content=None):
         new_article = Article()
         new_article.title = title
         new_article.category_id = category_id
         new_article.content = content
-        new_article.user_id = user_id
+        # new_article.user_id = user_id
         if content:
             new_article.abscontent = parser.get_abscontent(html)
         db.session.add(new_article)
