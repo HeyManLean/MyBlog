@@ -24,8 +24,8 @@
             </div>
             <div class="category-header">
                 <span class="category-title">文集列表</span>
-                <button class="delete-category">删除</button>
-                <button class="edit-category">编辑</button>
+                <button class="delete-category" onclick="showDeleteCatalog();">删除</button>
+                <button class="edit-category" onclick="showModifyCatalog();">编辑</button>
                 <button class="create-category" onclick="showCategoryCatalog();">新建</button>
             </div>
             <ul class="sidebar-item"></ul>
@@ -52,12 +52,30 @@
     </div>
 
     <div class="category-catalog">
-        <div>
+        <div class="new-category">
             <input id="newCategoryName" type="text" placeholder="文集名">
         </div>
-        <div class="submitCreateCategory">
-            <button class="category-catalog-btn" id="submitCreateCategory">创建</button>
-            <button class="category-catalog-btn" id="cancelCreateCategory">取消</button>
+        <div class="submit-category">
+            <button class="category-catalog-btn" id="submitCreateCategory" onclick="createCategory();">创建</button>
+            <button class="category-catalog-btn" onclick="hideCategoryCatalog();">取消</button>
+        </div>
+    </div>
+
+    <div class="category-catalog-modify">
+        <div class="modify-category">
+            <input id="latestCategoryName" type="text" placeholder="文集名">
+        </div>
+        <div class="submit-category">
+            <button class="category-catalog-btn" id="submitModifyCategory" onclick="modifyCategory();">修改</button>
+            <button class="category-catalog-btn" onclick="hideModifyCatalog();">取消</button>
+        </div>
+    </div>
+
+    <div class="category-catalog-delete">
+        <div class="delete-category-tip">确定删除?</div>
+        <div class="submit-category">
+            <button class="category-catalog-btn" id="submitModifyCategory" onclick="deleteCategory();">确定</button>
+            <button class="category-catalog-btn" onclick="hideDeleteCatalog();">取消</button>
         </div>
     </div>
 </body>

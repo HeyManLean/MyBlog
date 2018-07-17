@@ -1,8 +1,8 @@
-"""first migrate
+"""init database
 
-Revision ID: 123305ea7a6c
+Revision ID: 3db43bd29f5b
 Revises: 
-Create Date: 2018-06-14 00:09:47.521289
+Create Date: 2018-07-16 23:35:39.320156
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '123305ea7a6c'
+revision = '3db43bd29f5b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,8 +21,7 @@ def upgrade():
     op.create_table('article_category',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=False),
-    sa.Column('css', sa.String(length=64), nullable=False),
-    sa.Column('subject', sa.String(length=32), nullable=False),
+    sa.Column('status', sa.SmallInteger(), nullable=True),
     sa.Column('create_time', sa.DateTime(), nullable=True),
     sa.Column('update_time', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
@@ -42,7 +41,7 @@ def upgrade():
     sa.Column('title', sa.String(length=64), nullable=False),
     sa.Column('html', sa.Text(), nullable=True),
     sa.Column('abscontent', sa.Text(), nullable=True),
-    sa.Column('status', sa.SmallInteger(), nullable=True),
+    sa.Column('status', sa.SmallInteger(), nullable=False),
     sa.Column('category_id', sa.Integer(), nullable=False),
     sa.Column('create_time', sa.DateTime(), nullable=True),
     sa.Column('update_time', sa.DateTime(), nullable=True),
@@ -53,10 +52,9 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=64), nullable=False),
     sa.Column('content', sa.Text(), nullable=True),
-    sa.Column('html', sa.Text(), nullable=True),
-    sa.Column('abscontent', sa.Text(), nullable=True),
     sa.Column('user_id', sa.SmallInteger(), nullable=True),
-    sa.Column('status', sa.SmallInteger(), nullable=True),
+    sa.Column('status', sa.SmallInteger(), nullable=False),
+    sa.Column('is_published', sa.Boolean(), nullable=False),
     sa.Column('published_id', sa.Integer(), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=False),
     sa.Column('create_time', sa.DateTime(), nullable=True),

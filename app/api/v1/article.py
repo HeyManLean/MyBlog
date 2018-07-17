@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 
 from app import db
 from app.api.utils import get_params
-from app.models import Article, ArticleCategory, PublishedArticle, Subject
+from app.models import Article, ArticleCategory, PublishedArticle
 from app.utils.data import date2stamp
 
 
@@ -111,35 +111,46 @@ class ArticlesIdResource(Resource):
 class ArticleCategoriesResource(Resource):
     def get(self):
         categories_data = []
-        categories = ArticleCategory.query.all()
+        categories = ArticleCategory.get_valid_categories()
         for c in categories:
             categories_data.append(
-                dict(
-                    name=c.name,
-                    id=c.id,
-                    articles=[
-                        dict(
-                            title=a.title,
-                            # content=a.content,
-                            id=a.id)
-                        for a in Article.get_by_categoryid(c.id)
-                    ]
-                )
-            )
+                dict(name=c.name,
+                     id=c.id,
+                     articles=[dict(title=a.title,
+                                    id=a.id)
+                               for a in Article.get_by_categoryid(c.id)]))
         return dict(
             data=categories_data,
             code=200,
             message="ok"
         )
-    
+
     def post(self):
         (name, ) = get_params([
             Argument('name', type=str, required=True)
         ])
         new_category = ArticleCategory.insert(name)
+        db.session.commit()
         return dict(
             id=new_category.id,
             code=200,
             message='ok'
         )
+    
+    def put(self):
+        (category_id, new_name) = get_params([
+            Argument('id', type=int, required=True),
+            Argument('new_name', type=str, required=True)
+        ])
+        ArticleCategory.rename(category_id, new_name)
+        db.session.commit()
+        return dict()
 
+
+    def delete(self):
+        (category_id, ) = get_params([
+            Argument('id', type=int, required=True)
+        ])
+        ArticleCategory.delete(category_id)
+        db.session.commit()
+        return dict()

@@ -37,6 +37,7 @@ def create_app(config_name='testing'):
             "端口: {3}\n"
             "Cookies: {4}\n"
             "Url: {5}\n"
+            "参数: {6}\n"
             "====================================================================================================\n"
             .format(
                 request.headers.get('User-Agent'),
@@ -44,7 +45,9 @@ def create_app(config_name='testing'):
                 request.remote_addr,
                 request.environ['REMOTE_PORT'],
                 request.cookies,
-                request.url))
+                request.url,
+                request.args
+            ))
     from app.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
     

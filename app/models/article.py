@@ -15,11 +15,10 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), nullable=False)
     content = db.Column(db.Text)
-    html = db.Column(db.Text)
-    abscontent = db.Column(db.Text)
     user_id = db.Column(db.SmallInteger, db.ForeignKey('user.id'))
 
-    status = db.Column(db.SmallInteger, default=ArticleStatus.NORMAL)
+    status = db.Column(db.SmallInteger, default=ArticleStatus.NORMAL, nullable=False)
+    is_published = db.Column(db.Boolean, default=False, nullable=False)
 
     published_id = db.Column(db.Integer, db.ForeignKey('published_article.id'))
     published_article = db.relationship('PublishedArticle')
@@ -64,7 +63,7 @@ class Article(db.Model):
         return cls.query.filter_by(
             user_id=user_id
         ).all()
-    
+
     @classmethod
     def get_by_categoryid(cls, category_id):
         return cls.query.filter_by(
@@ -79,7 +78,7 @@ class PublishedArticle(db.Model):
     title = db.Column(db.String(64), nullable=False)
     html = db.Column(db.Text)
     abscontent = db.Column(db.Text)
-    status = db.Column(db.SmallInteger, default=ArticleStatus.NORMAL)
+    status = db.Column(db.SmallInteger, default=ArticleStatus.NORMAL, nullable=False)
 
     category_id = db.Column(db.Integer, db.ForeignKey(
         'article_category.id'), nullable=False)
@@ -90,23 +89,17 @@ class PublishedArticle(db.Model):
         db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 
-class Subject(Enum):
-    Programming = "编程语言"
-    ComputerTheory = "计算机原理"
-    Web = "WEB开发"
-    Other = "其他"
-    
+class CategoryStatus:
+    DELETED = 0
+    NORMAL = 1
 
 
 class ArticleCategory(db.Model):
     __tablename__ = 'article_category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False)
-    css = db.Column(db.String(64), nullable=False,
-                    default="glyphicon glyphicon-leaf")
-    subject = db.Column(db.String(32), nullable=False,
-                        default=Subject.Programming.value)
 
+    status = db.Column(db.SmallInteger, default=CategoryStatus.NORMAL)
     create_time = db.Column(db.DateTime, default=datetime.now)
     update_time = db.Column(
         db.DateTime, default=datetime.now, onupdate=datetime.now)
@@ -115,15 +108,32 @@ class ArticleCategory(db.Model):
         return '<ArticleCategory %s>' % self.name
 
     @classmethod
-    def get_by_subject(cls, subject):
-        return cls.query.filter_by(
-            subject=subject
-        ).all()
-
-    @classmethod
     def insert(cls, name):
         new_category = cls()
         new_category.name = name
         db.session.add(new_category)
         db.session.flush()
         return new_category
+
+    @classmethod
+    def delete(cls, id):
+        category = cls.query.get(id)
+        if category:
+            articles = Article.get_by_categoryid(id)
+            for a in articles:
+                a.status = ArticleStatus.DELETED
+            category.status = CategoryStatus.DELETED
+            db.session.flush()
+        return True
+
+    @classmethod
+    def rename(cls, id, new_name):
+        category = cls.query.get(id)
+        if category.name != new_name:
+            category.name = new_name
+            db.session.flush()
+        return True
+
+    @classmethod
+    def get_valid_categories(cls):
+        return cls.query.filter_by(status=CategoryStatus.NORMAL).all()

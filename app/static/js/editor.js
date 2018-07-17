@@ -44,33 +44,120 @@ function ajaxRequest(obj) {
         }
     };
     req.open(obj.method, obj.url, obj.async || true);
-    req.send();
+    var dataString = obj.data ? JSON.stringify(obj.data) : "";
+    req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    req.send(dataString);
 }
 
-
+// category catalog
 function showCategoryCatalog() {
     var categoryCatalog = document.querySelector(".category-catalog");
     categoryCatalog.style.display = "block";
 }
 
 
-function setArticleContent(aid) {
+function hideCategoryCatalog() {
+    var categoryCatalog = document.querySelector(".category-catalog");
+    categoryCatalog.style.display = "none";
+}
+
+
+function createCategory() {
+    var cName = document.getElementById("newCategoryName").value;
     ajaxRequest({
-        method: "get",
-        url: "/api/v1/articles/" + aid,
-        aync: true,
+        method: "post",
+        url: "/api/v1/article_categories",
+        data: {
+            name: cName
+        },
+        async: true,
         success: function (response) {
-            var editTitleInput = document.getElementById("titleInput");
-            editTitleInput.value = response.title;
-            var editContent = document.getElementById("editContent");
-            editContent.value = response.content;
-            text2HTML(editContent);
+            var cId = response.id;
+            var newCategoryNode = document.createElement("li");
+            newCategoryNode.innerHTML = '<input type="checkbox" id="c' +
+                cId + '" value=' + cId + '><label for="c' +
+                cId + '" class="category-label" onclick="clickCategoryLabel(this)">' + cName +
+                '</label><ul class="sidebar-list"></ul>';
+            var sideBarItemElement = document.querySelector(".sidebar-item");
+            sideBarItemElement.appendChild(newCategoryNode);
+            hideCategoryCatalog();
         },
         fail: function (status) {
             alert(status);
         }
     });
 }
+
+
+function showModifyCatalog() {
+    var cName = selectLabel = document.querySelector(".sidebar-item label.active").innerText;
+    var categoryCatalog = document.querySelector(".category-catalog-modify");
+    var modifyInput = document.querySelector("#latestCategoryName");
+    modifyInput.value = cName;
+    categoryCatalog.style.display = "block";
+}
+
+function hideModifyCatalog() {
+    var categoryCatalog = document.querySelector(".category-catalog-modify");
+    categoryCatalog.style.display = "none";
+}
+
+function modifyCategory() {
+    var cName = document.getElementById("latestCategoryName").value;
+    var selectLabel = document.querySelector(".sidebar-item label.active");
+    var selectCategory = selectLabel.previousSibling;
+    ajaxRequest({
+        method: "put",
+        url: "/api/v1/article_categories",
+        data: {
+            new_name: cName,
+            id: selectCategory.value
+        },
+        async: true,
+        success: function (response) {
+            selectLabel.innerText = cName;
+            hideModifyCatalog();
+        },
+        fail: function (status) {
+            alert(status);
+        }
+    });
+}
+
+
+function showDeleteCatalog() {
+    var categoryCatalog = document.querySelector(".category-catalog-delete");
+    categoryCatalog.style.display = "block";
+}
+
+
+function hideDeleteCatalog() {
+    var categoryCatalog = document.querySelector(".category-catalog-delete");
+    categoryCatalog.style.display = "none";
+}
+
+function deleteCategory() {
+    var selectCategory = document.querySelector(".sidebar-item label.active").previousSibling;
+
+    ajaxRequest({
+        method: "delete",
+        url: "/api/v1/article_categories",
+        data: {
+            id: selectCategory.value,
+        },
+        async: true,
+        success: function (response) {
+            var selectCategoryLi = selectCategory.parentElement;
+            var sideBarItemElement = document.querySelector(".sidebar-item");
+            sideBarItemElement.removeChild(selectCategoryLi);
+            hideDeleteCatalog();
+        },
+        fail: function (status) {
+            alert(status);
+        }
+    });
+}
+
 
 function clickCategoryLabel(item) {
     var cLabels = document.querySelectorAll("label.category-label");
@@ -92,7 +179,6 @@ function clickArticleItem(item) {
     var parentLabel = item.parentNode.previousSibling;
     clickCategoryLabel(parentLabel);
 }
-
 
 
 // category相关
@@ -132,8 +218,40 @@ function setCateoryList() {
 }
 
 
+// article相关
+function setArticleContent(aid) {
+    ajaxRequest({
+        method: "get",
+        url: "/api/v1/articles/" + aid,
+        aync: true,
+        success: function (response) {
+            var editTitleInput = document.getElementById("titleInput");
+            editTitleInput.value = response.title;
+            var editContent = document.getElementById("editContent");
+            editContent.value = response.content;
+            text2HTML(editContent);
+        },
+        fail: function (status) {
+            alert(status);
+        }
+    });
+}
+
+
+function createArticle() {
+    ajaxRequest({
+        method: "post",
+        url: "/api/v1/articles",
+        async: true,
+        success: function (response) {
+
+        },
+        fail: function (status) {
+            alert(status);
+        }
+    });
+}
+
 window.onload = function () {
     setCateoryList();
 }
-
-// var a = document.querySelector(".sidebar-item input[type='checkbox']:checked");
