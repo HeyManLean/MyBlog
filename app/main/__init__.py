@@ -2,12 +2,12 @@ from datetime import datetime
 import time
 
 from flask import Blueprint
-from flask import render_template
-from flask_login import current_user
+from flask import render_template, request, redirect
+from flask_login import current_user, login_user
 from sqlalchemy import extract
 
 from app import db
-from app.models import Article, ArticleCategory
+from app.models import PublishedArticle, ArticleCategory, ArticleStatus, User
 from app.utils.data import dtimeformat
 
 
@@ -16,7 +16,8 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    articles = Article.query.all()
+    articles = PublishedArticle.query.filter_by(
+        status=ArticleStatus.NORMAL).all()
     return render_template('base.html', articles=articles, location="home")
 
 
@@ -27,11 +28,14 @@ def about():
 
 @main.route('/categories')
 def categories():
-    article_categories = ArticleCategory.query.all()
+    article_categories = ArticleCategory.get_valid_categories()
     categories = []
 
     for a_category in article_categories:
-        articles = Article.query.filter_by(category_id=a_category.id).all()
+        articles = PublishedArticle.query.filter_by(
+            category_id=a_category.id,
+            status=ArticleStatus.NORMAL
+        ).all()
         categories.append(
             dict(
                 name=a_category.name,
@@ -44,11 +48,13 @@ def categories():
 @main.route('/archives')
 def archives():
     years = db.session.query(
-        extract('year', Article.create_time)).distinct().all()
+        extract('year', PublishedArticle.create_time)).distinct().all()
     archives = []
     for year in years:
-        articles = Article.query.filter(
-            extract('year', Article.create_time) == year[0]).all()
+        articles = PublishedArticle.query.filter(
+            extract('year', PublishedArticle.create_time) == year[0],
+            PublishedArticle.status == ArticleStatus.NORMAL
+        ).all()
         archives.append(
             dict(
                 date=year[0],
@@ -60,10 +66,25 @@ def archives():
 
 @main.route('/posts/<int:id>')
 def post(id):
-    post = Article.query.get(id)
+    post = PublishedArticle.query.get(id)
     return render_template('base.html', post=post, location="posts")
 
 
 @main.route('/editor')
 def editor():
+    if not current_user.is_active:
+        return redirect('/login')
     return render_template('editor.html')
+
+
+@main.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        email = request.form['email']
+        password = request.form['password']
+        user = User.get_by_email(email)
+        if user:
+            if user.verify_password(password):
+                login_user(user)
+                return redirect('/editor')
+    return render_template('login.html')

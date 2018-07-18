@@ -41,28 +41,46 @@ class Article(db.Model):
         new_article.category_id = category_id
         new_article.content = content
         # new_article.user_id = user_id
-        if content:
-            new_article.abscontent = parser.get_abscontent(html)
         db.session.add(new_article)
         db.session.flush()
         return new_article
 
-    def update(self, title, content, html, category_id):
+    def update(self, title, content):
         self.title = title
         self.content = content
-        self.html = html
-        if category_id:
-            self.category_id = category_id
-        if content:
-            self.abscontent = parser.get_abscontent(html)
         db.session.flush()
         return True
-
-    @classmethod
-    def get_by_userid(cls, user_id):
-        return cls.query.filter_by(
-            user_id=user_id
-        ).all()
+    
+    def delete(self):
+        self.status = ArticleStatus.DELETED
+        self.unpublish()
+        db.session.flush()
+        return True
+    
+    def publish(self, html, abscontent):
+        if not self.published_article:
+            p_article = PublishedArticle.insert(
+                title=self.title,
+                html=html,
+                abscontent=abscontent,
+                category_id=self.category_id
+            )
+            self.published_article = p_article
+        else:
+            self.published_article.update(
+                title=self.title,
+                html=html,
+                abscontent=abscontent,
+                category_id=self.category_id
+            )
+        self.is_published = True
+        return True
+    
+    def unpublish(self):
+        self.is_published = False
+        if self.published_article:
+            self.published_article.delete()
+        return True
 
     @classmethod
     def get_by_categoryid(cls, category_id):
@@ -87,6 +105,36 @@ class PublishedArticle(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     update_time = db.Column(
         db.DateTime, default=datetime.now, onupdate=datetime.now)
+    
+    @classmethod
+    def insert(cls, title, html, abscontent, category_id):
+        p_article = cls()
+        p_article.title = title
+        p_article.html = html
+        p_article.abscontent = abscontent
+        p_article.category_id = category_id
+        db.session.add(p_article)
+        db.session.flush()
+        return p_article
+    
+    def update(self, title, html, abscontent, category_id):
+        self.title = title
+        self.html = html
+        self.abscontent = abscontent
+        self.category_id = category_id
+        self.status = ArticleStatus.NORMAL
+        db.session.flush()
+        return True
+    
+    def delete(self):
+        self.status = ArticleStatus.DELETED
+        db.session.flush()
+
+    @classmethod
+    def get_by_categoryid(cls, category_id):
+        return cls.query.filter_by(
+            category_id=category_id,
+            status=ArticleStatus.NORMAL).all()
 
 
 class CategoryStatus:

@@ -168,20 +168,6 @@ function clickCategoryLabel(item) {
     item.className = "category-label active";
 }
 
-function clickArticleItem(item, reset=true) {
-    var aItems = document.querySelectorAll(".sidebar-list li");
-    for (var i = 0, len = aItems.length; i < len; i++) {
-        var aItem = aItems.item(i);
-        aItem.className = "";
-    }
-    item.className = "active";
-    if (reset){
-        setArticleContent(item.getAttribute("aid"));
-    }
-    var parentLabel = item.parentNode.previousSibling;
-    clickCategoryLabel(parentLabel);
-}
-
 
 // category相关
 function setCateoryList() {
@@ -221,22 +207,49 @@ function setCateoryList() {
 
 
 // article相关
+function changeEditorContent(title, content, isPublished) {
+    var editTitleInput = document.getElementById("titleInput");
+    editTitleInput.value = title || "";
+    var editContent = document.getElementById("editContent");
+    editContent.value = content || "";
+    var publishTip = document.getElementById("publishTip");
+    if (typeof (isPublished) != "undefined") {
+        publishTip.innerText = isPublished ? "已发布" : "未发布";
+    } else {
+        publishTip.innerText = "";
+    }
+
+    text2HTML(editContent);
+}
+
 function setArticleContent(aid) {
     ajaxRequest({
         method: "get",
         url: "/api/v1/articles/" + aid,
         aync: true,
         success: function (response) {
-            var editTitleInput = document.getElementById("titleInput");
-            editTitleInput.value = response.title;
-            var editContent = document.getElementById("editContent");
-            editContent.value = response.content;
-            text2HTML(editContent);
+            changeEditorContent(response.title, response.content, response.is_published);
         },
         fail: function (status) {
             alert(status);
         }
     });
+}
+
+function clickArticleItem(item, reset = true) {
+    var aItems = document.querySelectorAll(".sidebar-list li");
+    for (var i = 0, len = aItems.length; i < len; i++) {
+        var aItem = aItems.item(i);
+        aItem.className = "";
+    }
+    item.className = "active";
+    if (reset) {
+        setArticleContent(item.getAttribute("aid"));
+    } else {
+        changeEditorContent(item.innerText);
+    }
+    var parentLabel = item.parentNode.previousSibling;
+    clickCategoryLabel(parentLabel);
 }
 
 
@@ -271,8 +284,135 @@ function createArticle() {
 }
 
 
-function modifyArticle() {
+function displayEditTip(text, className = "editor-tip") {
+    var editTip = document.getElementById("editorTip");
+    editTip.className = className;
+    editTip.innerText = text;
 
+    setTimeout('var editTip = document.getElementById("editorTip");editTip.innerText = "";', 3000);
+}
+
+function modifyArticle() {
+    var currentArticleLi = document.querySelector(".sidebar-list li.active");
+    var aId = currentArticleLi.getAttribute("aid");
+    var aTitle = document.getElementById("titleInput").value;
+    var aContent = document.getElementById("editContent").value;
+    ajaxRequest({
+        url: "/api/v1/articles/" + aId,
+        method: "put",
+        async: true,
+        data: {
+            title: aTitle,
+            content: aContent,
+        },
+        success: function (response) {
+            displayEditTip("保存成功!");
+            currentArticleLi.firstChild.innerText = aTitle;
+
+        },
+        fail: function (status) {
+            displayEditTip("保存失败!", "editor-tip-error");
+        }
+    });
+}
+
+function deleteArticle() {
+    var currentArticleLi = document.querySelector(".sidebar-list li.active");
+    var aId = currentArticleLi.getAttribute("aid");
+    ajaxRequest({
+        url: "/api/v1/articles/" + aId,
+        method: "delete",
+        async: true,
+        success: function (response) {
+            var preArticleLi = currentArticleLi.previousSibling;
+            currentArticleLi.parentElement.removeChild(currentArticleLi);
+            if (preArticleLi) {
+                clickArticleItem(preArticleLi);
+            } else {
+                changeEditorContent();
+            }
+            hideArticleCatalog();
+
+        },
+        fail: function (status) {
+            alert(status);
+        }
+    });
+}
+
+function publishArticle() {
+    var currentArticleLi = document.querySelector(".sidebar-list li.active");
+    var aId = currentArticleLi.getAttribute("aid");
+    var aTitle = document.getElementById("titleInput").value;
+    var aContent = document.getElementById("editContent").value;
+
+    var showElement = document.getElementById("showContent");
+    var aHtml = showElement.innerHTML;
+
+    var tempElement = document.createElement("div");
+    var showChildren = showElement.children;
+    for (var i = 0; i < 4; i++) {
+        var currentChild = showChildren[i];
+        if (!currentChild) {
+            break;
+        } else {
+            var newChild = currentChild.cloneNode(true);
+            tempElement.appendChild(newChild);
+        }
+    }
+    var aAbscontent = tempElement.innerHTML;
+
+    var publishTip = document.getElementById("publishTip");
+
+    ajaxRequest({
+        url: "/api/v1/articles/" + aId + '/publish',
+        method: "post",
+        data: {
+            title: aTitle,
+            content: aContent,
+            html: aHtml,
+            abscontent: aAbscontent
+        },
+        async: true,
+        success: function () {
+            publishTip.innerText = "已发布";
+            displayEditTip("发布成功!");
+        },
+        fail: function () {
+            displayEditTip("发布失败!", "editor-tip-error");
+        }
+    });
+}
+
+function unpublishArticle() {
+    var currentArticleLi = document.querySelector(".sidebar-list li.active");
+    var aId = currentArticleLi.getAttribute("aid");
+    var publishTip = document.getElementById("publishTip");
+
+    ajaxRequest({
+        url: "/api/v1/articles/" + aId + '/publish',
+        method: "delete",
+        async: true,
+        success: function () {
+            publishTip.innerText = "未发布";
+            displayEditTip("取消发布成功!");
+        },
+        fail: function () {
+            displayEditTip("取消发布失败!", "editor-tip-error");
+        }
+    });
+}
+
+
+function showArticleCatalog() {
+    var articleCatalog = document.querySelector(".article-catalog");
+    articleCatalog.style.display = "block";
+}
+
+
+function hideArticleCatalog() {
+    var articleCatalog = document.querySelector(".article-catalog");
+    articleCatalog.style.display = "none";
 }
 
 window.onload = function () {

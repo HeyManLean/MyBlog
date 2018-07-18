@@ -33,12 +33,12 @@
         <div class="editor">
             <div class="title-menu">
                 <input type="text" placeholder="标题" class="title-input" id="titleInput">
-                <div class="publish-tip">已发布</div>
-                <div class="editor-tip">保存成功!</div>
-                <div class="save-content">保存</div>
-                <div class="publish-content">发布</div>
-                <div class="delete-content">删除</div>
-                <div class="unpublish-content">取消发布</div>
+                <div class="publish-tip" id="publishTip"></div>
+                <div class="editor-tip" id="editorTip"></div>
+                <div class="save-content" onclick="modifyArticle();">保存</div>
+                <div class="publish-content" onclick="publishArticle();">发布</div>
+                <div class="delete-content" onclick="showArticleCatalog();">删除</div>
+                <div class="unpublish-content" onclick="unpublishArticle();">取消发布</div>
             </div>
             <div class="edit-menu">
                 <div class="content">
@@ -72,10 +72,18 @@
     </div>
 
     <div class="category-catalog-delete">
-        <div class="delete-category-tip">确定删除?</div>
+        <div class="delete-category-tip">确定删除选中文集?</div>
         <div class="submit-category">
-            <button class="category-catalog-btn" id="submitModifyCategory" onclick="deleteCategory();">确定</button>
+            <button class="category-catalog-btn" onclick="deleteCategory();">确定</button>
             <button class="category-catalog-btn" onclick="hideDeleteCatalog();">取消</button>
+        </div>
+    </div>
+
+    <div class="article-catalog">
+        <div class="article-catalog-tip">确定删除此文章?</div>
+        <div class="submit-category">
+            <button class="category-catalog-btn" onclick="deleteArticle();">确定</button>
+            <button class="category-catalog-btn" onclick="hideArticleCatalog();">取消</button>
         </div>
     </div>
 

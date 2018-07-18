@@ -182,15 +182,23 @@ ul {
     height: 94vh;
 }
 
-.editor-tip {
+.editor-tip, .editor-tip-error {
     display: inline-block;
     /* line-height: 62px; */
     padding-left: 2px;
     font-size: 14px;
-    color: #02b17c;
+    
     position: absolute;
     top: 2px;
     right: 4em;
+}
+
+.editor-tip {
+    color: #02b17c;
+}
+
+.editor-tip-error {
+    color: #ff0000;
 }
 
 .publish-tip {
@@ -306,7 +314,19 @@ input#toggleInput:checked+.show-content {
     margin: 0 10px;
 }
 
-.delete-category-tip {
+.delete-category-tip, .article-catalog-tip{
     text-align: center;
     padding: 30px 0;
+    font-size: 20px;
+    color: red;
+}
+
+/* article-catalog */
+.article-catalog {
+    display: none;
+    background: white;
+    border: 1px solid black;
+    position: fixed;
+    top: 30%;
+    left: 40%;
 }

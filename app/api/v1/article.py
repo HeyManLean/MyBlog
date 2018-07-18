@@ -10,25 +10,6 @@ from app.utils.data import date2stamp
 
 class ArticlesResource(Resource):
     # @login_required
-    def get(self):
-        articles = current_user.articles
-        articles_data = [
-            dict(
-                id=a.id,
-                title=a.title,
-                html=a.abscontent,
-                author=a.user.nickname,
-                create_time=date2stamp(a.create_time),
-                view_count=0)
-            for a in articles]
-        data = dict(
-            list=articles_data,
-            code=200,
-            message="ok"
-        )
-        return data
-
-    # @login_required
     def post(self):
         (title, category_id) = get_params([
             Argument('title', type=str, required=True),
@@ -63,6 +44,7 @@ class ArticlesIdResource(Resource):
                 title=article.title,
                 category_id=article.category_id,
                 content=article.content,
+                is_published=article.is_published,
                 create_time=date2stamp(article.create_time)
             )
         return data
@@ -76,13 +58,11 @@ class ArticlesIdResource(Resource):
                 message="The requested article is not found"
             )
         else:
-            (title, content, html, category_id) = get_params([
+            (title, content) = get_params([
                 Argument('title', type=str, required=True),
-                Argument('content', type=str, required=True),
-                Argument('html', type=str, required=True),
-                Argument('category_id', type=int)
+                Argument('content', type=str, required=True)
             ])
-            article.update(title, content, html, category_id)
+            article.update(title, content)
             db.session.commit()
             data = dict(
                 code=200,
@@ -99,12 +79,53 @@ class ArticlesIdResource(Resource):
                 message="The requested article is not found"
             )
         else:
-            db.session.delete(article)
+            article.delete()
             db.session.commit()
             data = dict(
                 code=200,
                 message="ok"
             )
+        return data
+
+
+class ArticlePublishResource(Resource):
+    def post(self, id):
+        article = Article.query.get(id)
+        if not article:
+            data = dict(
+                code=404,
+                message="The requested article is not found"
+            )
+        else:
+            (title, content, html, abscontent) = get_params([
+                Argument('title', type=str, required=True),
+                Argument('content', type=str, required=True),
+                Argument('html', type=str, required=True),
+                Argument('abscontent', type=str, required=True),
+            ])
+            article.update(title, content)
+            article.publish(html, abscontent)
+            data = dict(
+                code=200,
+                message="ok"
+            )
+            db.session.commit()
+        return data
+    
+    def delete(self, id):
+        article = Article.query.get(id)
+        if not article:
+            data = dict(
+                code=404,
+                message="The requested article is not found"
+            )
+        else:
+            article.unpublish()
+            data = dict(
+                code=200,
+                message="ok"
+            )
+            db.session.commit()
         return data
 
 
