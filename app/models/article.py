@@ -40,7 +40,7 @@ class Article(db.Model):
         new_article.title = title
         new_article.category_id = category_id
         new_article.content = content
-        # new_article.user_id = user_id
+        new_article.user_id = user_id
         db.session.add(new_article)
         db.session.flush()
         return new_article

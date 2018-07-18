@@ -22,38 +22,53 @@ body {
     -moz-box-sizing: border-box;
 }
 
-ul {
-    margin: 0;
-    padding: 0;
+input:focus,
+textarea:focus {
+    outline: none;
+}
+
+textarea {
+    border: none;
+    font-family: 'sourcesanspro', Arial, Helvetica, sans-serif;
 }
 
 .sidebar {
     width: 300px;
     height: 100%;
-    border-right: 1px solid #e0e1e5;
-    background-color: #f5f5f5;
+    border-right: 1px solid #000000;
+    /* background-color: #f5f5f5; */
+    background-color: #1e282b;
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
 }
 
-.sidebar-item,
-.sidebar-list {
+.sidebar-item {
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .sidebar-list {
-    line-height: 40px;
+    list-style: none;
+    margin: 0;
+    line-height: 2.5;
 }
 
 .sidebar-item {
-    line-height: 60px;
+    line-height: 3.5;
 }
 
-.sidebar-item label:hover,
-.sidebar-list li:hover {
-    background: #b7d2f3;
+.sidebar-item label:hover {
+    background: red;
     cursor: pointer;
+    color: white;
+}
+
+.sidebar-list li:hover {
+    background: #e65908;
+    cursor: pointer;
+    color: white;
 }
 
 .sidebar-item input,
@@ -65,21 +80,25 @@ ul {
     display: block;
 }
 
+.sidebar-item input[type="checkbox"]:checked+label {
+    border-bottom: 1px solid #464849;
+}
+
 .sidebar-item label {
     margin: 0;
-    padding-left: 40px;
+    padding-left: 20px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    color: #393939;
+    color: #868686;
     display: inline-block;
     width: 100%;
-    border-top: 1px solid #398dee;
+    border-top: 1px solid #464849;
 }
 
 .sidebar-item label.active {
-    background: #398dee;
-    border: 1px solid #006de9;
+    background: red;
+    /* border: 1px solid #464849; */
     color: #fff;
 }
 
@@ -97,7 +116,7 @@ ul {
 
 .create-icon {
     position: relative;
-    color: #398dee;
+    color: #e65908;
     font-size: 40px;
     font-weight: bold;
     top: 7px;
@@ -106,28 +125,29 @@ ul {
 .create-text {
     font-size: 15px;
     margin-left: 8px;
-    color: #393939;
+    color: #ffffff;
     position: relative;
 }
 
 .create:hover * {
-    color: #398dee;
+    color: #e65908;
 }
 
 .sidebar-list li {
-    padding-left: 60px;
-    color: #686868
+    padding-left: 10px;
+    color: #818181
 }
 
 .sidebar-list li.active {
-    background-color: #b7d2f3;
+    background-color: #e65908;
+    color: white;
 }
 
 .category-header {
     height: 25px;
     line-height: 25px;
     font-size: 12px;
-    background-color: #152e4b;
+    background-color: #111316;
     color: white;
 }
 
@@ -135,7 +155,7 @@ ul {
 .edit-category,
 .delete-category {
     float: right;
-    background-color: #152e4b;
+    background-color: #111316;
     color: white;
     border: none;
     font-size: 12px;
@@ -145,7 +165,7 @@ ul {
 .create-category:hover,
 .edit-category:hover,
 .delete-category:hover {
-    background-color: #398dee;
+    background-color: #e65908;
     cursor: pointer;
 }
 
@@ -159,6 +179,7 @@ ul {
 
 .editor {
     flex: 1;
+    background-color: #20292B;
 }
 
 /* title */
@@ -166,28 +187,31 @@ ul {
 .title-menu {
     user-select: none;
     height: 6vh;
+    border-bottom: 1px solid black;
 }
 
 .title-input {
     border-style: none;
-    border-right: 1px solid #e0e1e5;
+    /* border-right: 1px solid #e0e1e5; */
     font-size: 20px;
     /* line-height: 62px; */
     padding-left: 20px;
+    color: white;
     width: 40%;
     height: 100%;
+    background-color: #20292B;
 }
 
 .edit-menu {
     height: 94vh;
 }
 
-.editor-tip, .editor-tip-error {
+.editor-tip,
+.editor-tip-error {
     display: inline-block;
     /* line-height: 62px; */
     padding-left: 2px;
     font-size: 14px;
-    
     position: absolute;
     top: 2px;
     right: 4em;
@@ -219,7 +243,7 @@ ul {
     /* float: right; */
     font-size: 16px;
     padding: 15px 6px;
-    color: #393939;
+    color: #cccccc;
     display: inline-block;
 }
 
@@ -227,7 +251,7 @@ ul {
 .publish-content:hover,
 .delete-content:hover,
 .unpublish-content:hover {
-    color: black;
+    color: white;
     font-weight: bold;
     cursor: pointer;
 }
@@ -247,7 +271,8 @@ ul {
     /* height: auto; */
     width: 16px;
     text-align: center;
-    background-color: rgb(153, 153, 153);
+    /* background-color: rgb(153, 153, 153); */
+    background-color: #20292B;
 }
 
 .toggle-label:hover {
@@ -262,42 +287,49 @@ input#toggleInput:checked+.show-content {
 .edit-content {
     flex: 1;
     width: 0;
-    background-color: #2D2D2D;
+    background-color: rgb(39, 52, 65);
     font-size: 16px;
     resize: none;
     color: white;
-    padding: 10px 0 0 20px;
-    overflow: scroll;
+    padding: 10px 0 0 5px;
+    border-left: 30px solid rgb(29, 42, 56);
+    overflow: auto;
 }
 
 .show-content {
     flex: 1;
     width: 0;
-    border: 1px solid #686868;
+    /* border: 1px solid #686868; */
     font-size: 16px;
-    overflow: scroll;
-    padding-left: 20px;
+    overflow: auto;
+    padding: 0 30px;
+    background-color: white;
 }
 
 /* category-catalog */
 
-.category-catalog, .category-catalog-modify, .category-catalog-delete {
+.category-catalog,
+.category-catalog-modify,
+.category-catalog-delete {
     display: none;
     /* width: 400px;
     height: 300px; */
-    background: white;
+    /* background: rgb(255, 255, 255); */
+    background-color: #1e282b;
     border: 1px solid black;
     position: fixed;
     top: 65px;
     left: 300px;
 }
 
-.new-category, .modify-category {
+.new-category,
+.modify-category {
     margin: 30px auto;
     padding: 0 30px;
 }
 
-.new-category input, .modify-category input {
+.new-category input,
+.modify-category input {
     height: 50px;
     width: 300px;
     font-size: 18px;
@@ -314,17 +346,25 @@ input#toggleInput:checked+.show-content {
     margin: 0 10px;
 }
 
-.delete-category-tip, .article-catalog-tip{
+.category-catalog-btn:hover {
+    cursor: pointer;
+    border: 1px solid #e65908;
+}
+
+.delete-category-tip,
+.article-catalog-tip {
     text-align: center;
     padding: 30px 0;
     font-size: 20px;
-    color: red;
+    color: white;
 }
 
 /* article-catalog */
+
 .article-catalog {
     display: none;
-    background: white;
+    /* background: white; */
+    background-color: #1e282b;
     border: 1px solid black;
     position: fixed;
     top: 30%;
