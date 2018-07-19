@@ -248,6 +248,7 @@ Post
 
 .post-content {
     margin-top: 20px;
+    font-family: monospace;
 }
 
 table td {
