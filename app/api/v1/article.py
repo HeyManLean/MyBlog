@@ -39,13 +39,19 @@ class ArticlesIdResource(Resource):
                 message="The requested article is not found"
             )
         else:
+            is_published = article.is_published
+            if is_published:
+                publish_time = article.publish_time.strftime("%Y-%m-%d %H时%M分%S秒")
+            else:
+                publish_time = None
             data = dict(
                 code=200,
                 message="ok",
                 title=article.title,
                 category_id=article.category_id,
                 content=article.content,
-                is_published=article.is_published,
+                is_published=is_published,
+                publish_time=publish_time,
                 create_time=date2stamp(article.create_time)
             )
         return data
@@ -109,7 +115,8 @@ class ArticlePublishResource(Resource):
             article.publish(html, abscontent)
             data = dict(
                 code=200,
-                message="ok"
+                message="ok",
+                publish_time=article.publish_time.strftime("%Y-%m-%d %H时%M分%S秒")
             )
             db.session.commit()
         return data

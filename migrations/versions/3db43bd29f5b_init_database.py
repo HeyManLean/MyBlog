@@ -57,6 +57,7 @@ def upgrade():
     sa.Column('is_published', sa.Boolean(), nullable=False),
     sa.Column('published_id', sa.Integer(), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=False),
+    sa.Column('publish_time', sa.DateTime(), nullable=True),
     sa.Column('create_time', sa.DateTime(), nullable=True),
     sa.Column('update_time', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['category_id'], ['article_category.id'], ),

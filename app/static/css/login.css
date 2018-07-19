@@ -8,8 +8,10 @@
     font-family: 'sourcesanspro';
     src: url('../fonts/sourcesanspro.woff2');
 }
-body {
-    background-color: #e65908;
+html, body {
+    background-color: red;
+    width: 100vw;
+    height: 100vh;
 }
 
 * {
@@ -18,13 +20,8 @@ body {
     -moz-box-sizing: border-box;
 }
 
-input:focus,
-textarea:focus {
+input:focus {
     outline: none;
-}
-
-textarea {
-    border: none;
     font-family: 'sourcesanspro', Arial, Helvetica, sans-serif;
 }
 

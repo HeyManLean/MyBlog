@@ -207,14 +207,14 @@ function setCateoryList() {
 
 
 // article相关
-function changeEditorContent(title, content, isPublished) {
+function changeEditorContent(title, content, isPublished, publishTime) {
     var editTitleInput = document.getElementById("titleInput");
     editTitleInput.value = title || "";
     var editContent = document.getElementById("editContent");
     editContent.value = content || "";
     var publishTip = document.getElementById("publishTip");
     if (typeof (isPublished) != "undefined") {
-        publishTip.innerText = isPublished ? "已发布" : "未发布";
+        publishTip.innerText = isPublished ? "已发布, 于" + publishTime : "未发布";
     } else {
         publishTip.innerText = "";
     }
@@ -228,7 +228,7 @@ function setArticleContent(aid) {
         url: "/api/v1/articles/" + aid,
         aync: true,
         success: function (response) {
-            changeEditorContent(response.title, response.content, response.is_published);
+            changeEditorContent(response.title, response.content, response.is_published, response.publish_time);
         },
         fail: function (status) {
             alert(status);
@@ -374,8 +374,8 @@ function publishArticle() {
             abscontent: aAbscontent
         },
         async: true,
-        success: function () {
-            publishTip.innerText = "已发布";
+        success: function (response) {
+            publishTip.innerText = "已发布, 于" + response.publish_time;
             displayEditTip("发布成功!");
         },
         fail: function () {

@@ -80,9 +80,9 @@ def editor():
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
-        email = request.form['email']
+        # email = request.form['email']
         password = request.form['password']
-        user = User.get_by_email(email)
+        user = User.get_by_email("565743040@qq.com")
         if user:
             if user.verify_password(password):
                 login_user(user)

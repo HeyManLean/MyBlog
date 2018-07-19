@@ -27,6 +27,7 @@ class Article(db.Model):
         'article_category.id'), nullable=False)
     category = db.relationship('ArticleCategory')
 
+    publish_time = db.Column(db.DateTime)
     create_time = db.Column(db.DateTime, default=datetime.now)
     update_time = db.Column(
         db.DateTime, default=datetime.now, onupdate=datetime.now)
@@ -74,6 +75,7 @@ class Article(db.Model):
                 category_id=self.category_id
             )
         self.is_published = True
+        self.publish_time = datetime.now()
         return True
     
     def unpublish(self):
