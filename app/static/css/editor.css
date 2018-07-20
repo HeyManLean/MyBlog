@@ -3,6 +3,11 @@
     src: url('/static/fonts/sourcesanspro.woff2');
 }
 
+@font-face {
+    font-family: 'CabinSketch';
+    src: url('../fonts/CabinSketch-Bold.ttf');
+}
+
 html,
 body {
     width: 100vw;
@@ -41,6 +46,20 @@ textarea {
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
+}
+
+.logo-link {
+    color: red;
+    font-family: 'CabinSketch';
+    font-size: 60px;
+    text-decoration: none;
+    position: fixed;
+    left: 30px;
+    bottom: 10px;
+}
+
+.logo-link:hover {
+    cursor: pointer;
 }
 
 .sidebar-item {
@@ -117,13 +136,13 @@ textarea {
 .create-icon {
     position: relative;
     color: #e65908;
-    font-size: 40px;
+    font-size: 48px;
     font-weight: bold;
     top: 7px;
 }
 
 .create-text {
-    font-size: 15px;
+    font-size: 20px;
     margin-left: 8px;
     color: #ffffff;
     position: relative;
@@ -239,7 +258,8 @@ textarea {
 .save-content,
 .publish-content,
 .delete-content,
-.unpublish-content {
+.unpublish-content,
+.upload-image {
     /* float: right; */
     font-size: 16px;
     padding: 15px 6px;
@@ -250,7 +270,8 @@ textarea {
 .save-content:hover,
 .publish-content:hover,
 .delete-content:hover,
-.unpublish-content:hover {
+.unpublish-content:hover,
+.upload-image:hover {
     color: white;
     font-weight: bold;
     cursor: pointer;
@@ -304,7 +325,6 @@ input#toggleInput:checked+.show-content {
     overflow: auto;
     padding: 0 30px;
     background-color: white;
-    font-family: monospace;
 }
 
 /* category-catalog */
@@ -370,4 +390,46 @@ input#toggleInput:checked+.show-content {
     position: fixed;
     top: 30%;
     left: 40%;
+}
+
+/* file-upload */
+.file-catalog {
+    display: none;
+    /* background: white; */
+    background-color: #1e282b;
+    border: 1px solid black;
+    position: fixed;
+    top: 30%;
+    left: 40%;
+    width: 500px;
+}
+
+.file-link {
+    background-color: #1d3b44;
+    border: 1px solid black;
+    height: 40px;
+    width: 100%;
+    margin: 10px 0;
+    color: white;
+    text-align: center;
+}
+
+.file-input {
+    padding: 30px;
+    color: white;
+}
+
+.file-catalog-btn {
+    height: 45px;
+    width: 100px;
+    margin: 0 10px;
+}
+
+.file-catalog-btn:hover {
+    cursor: pointer;
+    border: 1px solid #e65908;
+}
+
+.submit-upload {
+    padding: 20px 120px;
 }

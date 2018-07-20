@@ -415,6 +415,37 @@ function hideArticleCatalog() {
     articleCatalog.style.display = "none";
 }
 
+function showFileCatalog() {
+    var fileCatalog = document.querySelector(".file-catalog");
+    fileCatalog.style.display = "block";
+}
+
+function hideFileCatalog() {
+    var fileCatalog = document.querySelector(".file-catalog");
+    fileCatalog.style.display = "none";
+}
+
+function uploadFile() {
+    var fileObj = document.getElementById("fileInput").files[0];
+    var form = new FormData();
+    form.append("image", fileObj);
+
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                var fileLink = document.querySelector(".file-link");
+                fileLink.innerText = xhr.response.file_url;
+            } else {
+                alert(xhr.status);
+            }
+        }
+    };
+    xhr.open('post', '/api/v1/upload', true);
+    xhr.send(form);
+}
+
 window.onload = function () {
     setCateoryList();
 }

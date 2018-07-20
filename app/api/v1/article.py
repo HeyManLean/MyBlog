@@ -50,8 +50,7 @@ class ArticlesIdResource(Resource):
                 category_id=article.category_id,
                 content=article.content,
                 is_published=is_published,
-                publish_time=publish_time,
-                create_time=date2stamp(article.create_time)
+                publish_time=publish_time
             )
         return data
 

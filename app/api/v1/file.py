@@ -9,7 +9,7 @@ from config import Config
 
 
 class FileResource(Resource):
-    # @login_required
+    @login_required
     def post(self):
         image_file = request.files['image']
         file_md5 = cal_md5(image_file.read())

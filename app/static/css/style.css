@@ -248,7 +248,7 @@ Post
 
 .post-content {
     margin-top: 20px;
-    font-family: monospace;
+    /* font-family: monospace; */
 }
 
 table td {
@@ -271,4 +271,19 @@ article ul ul {
 
 article ul ul ul {
     list-style-type: square;
+}
+
+.editor-link {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    text-decoration: none;
+    color: #7f8c8d;
+    font-size: 20px;
+}
+
+.editor-link:hover {
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
 }
