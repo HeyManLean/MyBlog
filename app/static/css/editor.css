@@ -327,6 +327,11 @@ input#toggleInput:checked+.show-content {
     background-color: white;
 }
 
+.show-content img {
+    max-width: 500px;
+    max-height: 500px;
+}
+
 /* category-catalog */
 
 .category-catalog,

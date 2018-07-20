@@ -71,7 +71,6 @@ header {
     }
     section .big-logo {
         font-size: 12em;
-        border: none;
     }
     section .category-post-item,
     section .archive-post-item {
@@ -86,6 +85,11 @@ header {
     section .archive {
         margin: 0;
     }
+}
+
+article img {
+    max-width: 700px;
+    max-height: 500px;
 }
 
 .logo-link {
@@ -229,7 +233,6 @@ About
     font-family: 'CabinSketch';
     color: red;
     text-align: center;
-    border: 1px solid black;
 }
 
 /* 
