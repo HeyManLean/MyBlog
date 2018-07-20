@@ -18,6 +18,8 @@ class Config:
     MAIL_PASSWORD = 'BINbin13078313586'
     MAIL_SENDER = 'Mr.Lean <bigbin@bigbin.club>'
 
+    DOWNLOAD_DIR = '/tmp/lean/images'
+
     @staticmethod
     def init_app(app):
         pass

@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask import request
 from flask import render_template
@@ -22,6 +24,12 @@ admin = Admin(template_mode='bootstrap3')
 def create_app(config_name='testing'):
     app = Flask("Blog", static_folder='app/static', template_folder='app/templates')
     app.config.from_object(config[config_name])
+
+    # 创建下载目录
+    download_dir = app.config['DOWNLOAD_DIR']
+    if not os.path.isdir(download_dir):
+        os.makedirs(download_dir)
+
     login_manager.init_app(app)
     db.init_app(app)
     mail.init_app(app)

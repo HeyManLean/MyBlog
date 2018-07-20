@@ -8,7 +8,6 @@ from sqlalchemy import extract
 
 from app import db
 from app.models import PublishedArticle, ArticleCategory, ArticleStatus, User
-from app.utils.data import dtimeformat
 
 
 main = Blueprint('main', __name__)

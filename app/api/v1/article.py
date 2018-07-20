@@ -5,7 +5,6 @@ from flask_login import login_required, current_user
 from app import db
 from app.api.utils import get_params
 from app.models import Article, ArticleCategory, PublishedArticle
-from app.utils.data import date2stamp
 
 
 class ArticlesResource(Resource):
