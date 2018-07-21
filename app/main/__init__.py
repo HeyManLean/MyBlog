@@ -65,7 +65,12 @@ def archives():
 
 @main.route('/posts/<int:id>')
 def post(id):
-    post = PublishedArticle.query.get(id)
+    post = PublishedArticle.query.filter_by(
+        id=id,
+        status=ArticleStatus.NORMAL
+    ).first()
+    if not post:
+        return redirect('/')
     return render_template('base.html', post=post, location="posts")
 
 
