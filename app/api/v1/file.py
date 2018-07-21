@@ -19,7 +19,8 @@ class FileResource(Resource):
         image_file.save(
             os.path.join(Config.DOWNLOAD_DIR, filename)
         )
-        file_url = 'http://{0}/files/{1}'.format(request.host, filename)
+        # file_url = 'http://{0}/files/{1}'.format(request.host, filename)
+        file_url = 'http://{0}/static/{1}'.format(request.host, filename)
         data = dict(
             code=200,
             message='ok',

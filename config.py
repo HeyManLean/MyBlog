@@ -18,7 +18,9 @@ class Config:
     MAIL_PASSWORD = 'BINbin13078313586'
     MAIL_SENDER = 'Mr.Lean <bigbin@bigbin.club>'
 
-    DOWNLOAD_DIR = '/tmp/lean/images'
+    # DOWNLOAD_DIR = '/tmp/lean/images'
+
+    DOWNLOAD_DIR = os.path.abspath('app/static')
 
     @staticmethod
     def init_app(app):
