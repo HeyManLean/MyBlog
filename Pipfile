@@ -16,6 +16,9 @@ flask-migrate = "*"
 flask-restful = "*"
 flask-admin = "*"
 gunicorn = "*"
+gevent = "*"
+"psycopg2-binary" = "*"
+greenlet = "*"
 
 [requires]
 python_version = "3.5"

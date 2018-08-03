@@ -19,8 +19,9 @@ mail = Mail()
 parser = MyHTMLParser()
 
 
-def create_app(config_name='testing'):
+def create_app():
     app = Flask("Blog", static_folder='app/static', template_folder='app/templates')
+    config_name = os.environ.get('BLOG_ENV') or 'testing'
     app.config.from_object(config[config_name])
 
     # 创建下载目录

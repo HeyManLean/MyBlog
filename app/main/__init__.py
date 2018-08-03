@@ -35,12 +35,13 @@ def categories():
             category_id=a_category.id,
             status=ArticleStatus.NORMAL
         ).all()
-        categories.append(
-            dict(
-                name=a_category.name,
-                posts=articles
+        if articles:
+            categories.append(
+                dict(
+                    name=a_category.name,
+                    posts=articles
+                )
             )
-        )
     return render_template('base.html', categories=categories, location="categories")
 
 

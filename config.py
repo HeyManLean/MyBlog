@@ -18,13 +18,7 @@ class Config:
     MAIL_PASSWORD = 'BINbin13078313586'
     MAIL_SENDER = 'Mr.Lean <bigbin@bigbin.club>'
 
-    # DOWNLOAD_DIR = '/tmp/lean/images'
-
-    DOWNLOAD_DIR = os.path.abspath('app/static')
-
-    @staticmethod
-    def init_app(app):
-        pass
+    DOWNLOAD_DIR = '/tmp/lean/files'
 
 
 class TestingConfig(Config):
@@ -32,6 +26,11 @@ class TestingConfig(Config):
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
 
+class ProductionConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'postgresql://lean:123456@localhost:5432/blog'
+
+
 config = {
-    'testing': TestingConfig
+    'testing': TestingConfig,
+    'production': ProductionConfig
 }

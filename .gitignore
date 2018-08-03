@@ -3,3 +3,4 @@
 *.vscode
 *.pyc
 *.python-version
+conf/gunicorn
