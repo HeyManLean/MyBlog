@@ -16,6 +16,7 @@ grant all on database blog to lean;
 ```
 pipenv install
 pipenv shell
+export BLOG_ENV='production'
 python manage.py db upgrade
 python manage.py shell
 
