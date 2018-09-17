@@ -24,7 +24,13 @@ renderer.code = function (code, language) {
     var highlighted = hljs.highlight(lang, code).value;
     return '<pre class="hljs"><code class="hljs ' + lang + '">' + highlighted + '</code></pre>';
 };
-
+renderer.blockquote = function (blockquote) {
+    return '<blockquote class="hljs-blockquote">' + blockquote + '</blockquote>';
+};
+renderer.codespan = function (code) {
+    console.log(code);
+    return '<code class="hljs-code">' + code + '</code>';
+}
 
 function text2HTML(target) {
     var markedHtml = marked(target.value);
