@@ -48,11 +48,11 @@ def categories():
 @main.route('/archives')
 def archives():
     years = db.session.query(
-        extract('year', PublishedArticle.create_time)).distinct().order_by(PublishedArticle.create_time).all()
+        extract('year', PublishedArticle.create_time)).distinct().all()
     archives = []
     for year in years:
         months = db.session.query(
-            extract('month', PublishedArticle.create_time)).distinct().order_by(PublishedArticle.create_time).all()
+            extract('month', PublishedArticle.create_time)).distinct().all()
         for month in months:
             articles = PublishedArticle.query.filter(
                 extract('year', PublishedArticle.create_time) == year[0],
@@ -65,6 +65,7 @@ def archives():
                     posts=articles
                 )
             )
+    archives.sort(key=lambda x:x['date'], reverse=True)
     return render_template('base.html', archives=archives, location="archives")
 
 
