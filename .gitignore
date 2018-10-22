@@ -4,3 +4,5 @@
 *.pyc
 *.python-version
 conf/gunicorn
+log/
+nohup.out

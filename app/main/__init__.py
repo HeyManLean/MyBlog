@@ -54,10 +54,10 @@ def archives():
         articles = PublishedArticle.query.filter(
             extract('year', PublishedArticle.create_time) == year[0],
             PublishedArticle.status == ArticleStatus.NORMAL
-        ).all()
+        ).order_by(PublishedArticle.create_time).all()
         archives.append(
             dict(
-                date=year[0],
+                date=int(year[0]),
                 posts=articles
             )
         )
