@@ -59,13 +59,16 @@ def archives():
                 extract('month', PublishedArticle.create_time) == month[0],
                 PublishedArticle.status == ArticleStatus.NORMAL
             ).order_by(PublishedArticle.create_time).all()
+            order=int(year[0]) * 100 + int(month[0])
+            str_order = str(order)
             archives.append(
                 dict(
-                    date='{0}-{1}'.format(int(year[0]), int(month[0])),
+                    order=int(year[0]) * 100 + int(month[0]),
+                    date='{0}-{1}'.format(str_order[:4], str_order[4:]),
                     posts=articles
                 )
             )
-    archives.sort(key=lambda x:x['date'], reverse=True)
+    archives.sort(key=lambda x:x['order'], reverse=True)
     return render_template('base.html', archives=archives, location="archives")
 
 
