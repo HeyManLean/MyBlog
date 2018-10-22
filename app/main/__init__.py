@@ -16,7 +16,7 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     articles = PublishedArticle.query.filter_by(
-        status=ArticleStatus.NORMAL).all()
+        status=ArticleStatus.NORMAL).order_by(PublishedArticle.create_time.desc()).all()
     return render_template('base.html', articles=articles, location="home")
 
 
