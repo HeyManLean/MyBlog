@@ -51,16 +51,20 @@ def archives():
         extract('year', PublishedArticle.create_time)).distinct().all()
     archives = []
     for year in years:
-        articles = PublishedArticle.query.filter(
-            extract('year', PublishedArticle.create_time) == year[0],
-            PublishedArticle.status == ArticleStatus.NORMAL
-        ).order_by(PublishedArticle.create_time).all()
-        archives.append(
-            dict(
-                date=int(year[0]),
-                posts=articles
+        months = db.session.query(
+            extract('month', PublishedArticle.create_time)).distinct().all()
+        for month in months:
+            articles = PublishedArticle.query.filter(
+                extract('year', PublishedArticle.create_time) == year[0],
+                extract('month', PublishedArticle.create_time) == month[0],
+                PublishedArticle.status == ArticleStatus.NORMAL
+            ).order_by(PublishedArticle.create_time).all()
+            archives.append(
+                dict(
+                    date='{0}-{1}'.format(int(year[0]), int(month[0])),
+                    posts=articles
+                )
             )
-        )
     return render_template('base.html', archives=archives, location="archives")
 
 
