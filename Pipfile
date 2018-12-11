@@ -1,5 +1,5 @@
 [[source]]
-url = "https://pypi.org/simple"
+url = "https://pypi.douban.com/simple"
 verify_ssl = true
 name = "pypi"
 
@@ -15,6 +15,10 @@ flask-bootstrap = "*"
 flask-migrate = "*"
 flask-restful = "*"
 flask-admin = "*"
+gunicorn = "*"
+gevent = "*"
+"psycopg2-binary" = "*"
+greenlet = "*"
 
 [requires]
 python_version = "3.5"

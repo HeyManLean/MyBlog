@@ -1,0 +1,12 @@
+<div class="category">
+    {% for category in categories %}
+    <div class="category-item">
+        <h2 class="category-title">{{ category.name }}</h2>
+        {% for post in category.posts %}
+        <div class="category-post-item">
+            <span class="category-post-info">{{ post.create_time.date() }}</span>
+            <a class="category-post-title-link" href="/posts/{{ post.id }}">{{ post.title }}</a>
+        </div>
+        {% endfor %}
+    </div>{% endfor %}
+</div>

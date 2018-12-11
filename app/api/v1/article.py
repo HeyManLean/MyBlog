@@ -4,30 +4,10 @@ from flask_login import login_required, current_user
 
 from app import db
 from app.api.utils import get_params
-from app.models import Article, ArticleCategory, PublishedArticle, Subject
-from app.utils.data import date2stamp
+from app.models import Article, ArticleCategory, PublishedArticle
 
 
 class ArticlesResource(Resource):
-    @login_required
-    def get(self):
-        articles = current_user.articles
-        articles_data = [
-            dict(
-                id=a.id,
-                title=a.title,
-                html=a.abscontent,
-                author=a.user.nickname,
-                create_time=date2stamp(a.create_time),
-                view_count=0)
-            for a in articles]
-        data = dict(
-            list=articles_data,
-            code=200,
-            message="ok"
-        )
-        return data
-
     @login_required
     def post(self):
         (title, category_id) = get_params([
@@ -35,9 +15,9 @@ class ArticlesResource(Resource):
             Argument('category_id', type=int, required=True)
         ])
         new_article = Article.insert(
-            current_user.id,
             title,
-            category_id
+            category_id,
+            current_user.id
         )
         db.session.commit()
         data = dict(
@@ -49,6 +29,7 @@ class ArticlesResource(Resource):
 
 
 class ArticlesIdResource(Resource):
+    @login_required
     def get(self, id):
         article = Article.query.get(id)
         if not article:
@@ -57,15 +38,19 @@ class ArticlesIdResource(Resource):
                 message="The requested article is not found"
             )
         else:
+            is_published = article.is_published
+            if is_published:
+                publish_time = article.publish_time.strftime("%Y-%m-%d %H时%M分%S秒")
+            else:
+                publish_time = None
             data = dict(
                 code=200,
                 message="ok",
                 title=article.title,
-                html=article.html,
                 category_id=article.category_id,
                 content=article.content,
-                author=article.user.nickname,
-                create_time=date2stamp(article.create_time)
+                is_published=is_published,
+                publish_time=publish_time
             )
         return data
 
@@ -78,13 +63,11 @@ class ArticlesIdResource(Resource):
                 message="The requested article is not found"
             )
         else:
-            (title, content, html, category_id) = get_params([
+            (title, content) = get_params([
                 Argument('title', type=str, required=True),
-                Argument('content', type=str, required=True),
-                Argument('html', type=str, required=True),
-                Argument('category_id', type=int)
+                Argument('content', type=str, required=True)
             ])
-            article.update(title, content, html, category_id)
+            article.update(title, content)
             db.session.commit()
             data = dict(
                 code=200,
@@ -101,7 +84,7 @@ class ArticlesIdResource(Resource):
                 message="The requested article is not found"
             )
         else:
-            db.session.delete(article)
+            article.delete()
             db.session.commit()
             data = dict(
                 code=200,
@@ -110,24 +93,96 @@ class ArticlesIdResource(Resource):
         return data
 
 
+class ArticlePublishResource(Resource):
+    @login_required
+    def post(self, id):
+        article = Article.query.get(id)
+        if not article:
+            data = dict(
+                code=404,
+                message="The requested article is not found"
+            )
+        else:
+            (title, content, html, abscontent) = get_params([
+                Argument('title', type=str, required=True),
+                Argument('content', type=str, required=True),
+                Argument('html', type=str, required=True),
+                Argument('abscontent', type=str, required=True),
+            ])
+            article.update(title, content)
+            article.publish(html, abscontent)
+            data = dict(
+                code=200,
+                message="ok",
+                publish_time=article.publish_time.strftime("%Y-%m-%d %H时%M分%S秒")
+            )
+            db.session.commit()
+        return data
+
+    @login_required
+    def delete(self, id):
+        article = Article.query.get(id)
+        if not article:
+            data = dict(
+                code=404,
+                message="The requested article is not found"
+            )
+        else:
+            article.unpublish()
+            data = dict(
+                code=200,
+                message="ok"
+            )
+            db.session.commit()
+        return data
+
+
 class ArticleCategoriesResource(Resource):
+    @login_required
     def get(self):
         categories_data = []
-        for item in Subject:
-            subject_name = item.value
-            categories = ArticleCategory.get_by_subject(subject_name)
-            if categories:
-                categories_data.append(dict(
-                    subject=subject_name,
-                    categories=[dict(
-                        id=c.id,
-                        name=c.name,
-                        css=c.css
-                    ) for c in categories]
-                ))
+        categories = ArticleCategory.get_valid_categories()
+        for c in categories:
+            categories_data.append(
+                dict(name=c.name,
+                     id=c.id,
+                     articles=[dict(title=a.title,
+                                    id=a.id)
+                               for a in Article.get_by_categoryid(c.id)]))
         return dict(
-            list=categories_data,
+            data=categories_data,
             code=200,
             message="ok"
         )
 
+    @login_required
+    def post(self):
+        (name, ) = get_params([
+            Argument('name', type=str, required=True)
+        ])
+        new_category = ArticleCategory.insert(name)
+        db.session.commit()
+        return dict(
+            id=new_category.id,
+            code=200,
+            message='ok'
+        )
+    
+    @login_required
+    def put(self):
+        (category_id, new_name) = get_params([
+            Argument('id', type=int, required=True),
+            Argument('new_name', type=str, required=True)
+        ])
+        ArticleCategory.rename(category_id, new_name)
+        db.session.commit()
+        return dict()
+
+    @login_required
+    def delete(self):
+        (category_id, ) = get_params([
+            Argument('id', type=int, required=True)
+        ])
+        ArticleCategory.delete(category_id)
+        db.session.commit()
+        return dict()

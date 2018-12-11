@@ -1,79 +1,103 @@
-{% extends "home.html" %} {% block scripts %} {{ super() }}
-<script>
-    var post_id = /articles\/(\d+)/.exec(window.location.href)[1];
-    var editorLoaded = false;
-    var articleUrl = "/api/v1/articles/" + post_id
-    var renderer = new marked.Renderer()
-    marked.setOptions({
-        renderer: renderer,
-        gfm: true,
-        tables: true,
-        breaks: false,
-        pedantic: false,
-        sanitize: false,
-        smartLists: true,
-        smartypants: false,
-        highlight: function (code) {
-            return hljs.highlightAuto(code).value;
-        }
-    });
-    renderer.code = function (code, language) {
-        var lang = language;
-        if (!language) {
-            lang = 'python';
-        }
-        var highlighted = hljs.highlight(lang, code).value;
-        return '<pre class="hljs"><code class="hljs ' + lang + '">' + highlighted + '</code></pre>';
-    };
-    renderer.table = function (header, body) {
-        return '<table class="table table-bordered table-hover table-striped table-condensed">' + header + body + '</table>';
-    };
-    $("Document").ready(function () {
-        if (editorLoaded) {
-            return;
-        }
-        $.ajax({
-            url: articleUrl,
-            type: "get",
-            dataType: "json",
-            success: function (data, status) {
-                if (data.code == 200) {
-                    $("#articleTitle").val(data.title);
-                    $("#editor").val(data.content);
-                }
-            }
-        });
-        editorLoaded = true;
-    });
-    $("#editor").markdown({
-        autofocus: true,
-        savable: false,
-        onSave: function (e) {
-            var content = e.getContent();
-            var html = e.parseContent();
-            var title = $("#articleTitle").val();
-            $.ajax({
-                url: articleUrl,
-                type: "put",
-                data: {
-                    title: title,
-                    html: html,
-                    content: content
-                },
-                dataType: "json",
-                success: function (data, status) {
-                    $("#saveInfo").text(data.message);
-                }
-            });
-        }
-    });
-</script>
-{% endblock %} {% block azone %}
-<form id="mdForm">
-    <div class="form-group">
-        <input class="form-control" type="text" name="articleTitle" id="articleTitle" placeholder="标题">
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>LEAN-EDITOR</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/static/images/logo.png">
+    <link type="text/css" rel="stylesheet" href="/static/css/hightlight.css">
+    <link type="text/css" rel="stylesheet" href="/static/css/editor.css">
+
+    <script src="/static/js/hightlight.min.js"></script>
+    <script src="/static/js/marked.min.js"></script>
+    <script src="/static/js/editor.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="sidebar">
+            <a href="/" class="logo-link" target="_blank">&lt;=LEAN</a>
+            <div class="hd">
+                <div class="create" onclick="createArticle();">
+                    <span class="create-icon">+</span>
+                    <span class="create-text">新文档</span>
+                </div>
+            </div>
+            <div class="category-header">
+                <span class="category-title">文集列表</span>
+                <button class="delete-category" onclick="showDeleteCatalog();">删除</button>
+                <button class="edit-category" onclick="showModifyCatalog();">编辑</button>
+                <button class="create-category" onclick="showCategoryCatalog();">新建</button>
+            </div>
+            <ul class="sidebar-item"></ul>
+        </div>
+        <div class="editor">
+            <div class="title-menu">
+                <input type="text" placeholder="标题" class="title-input" id="titleInput">
+                <div class="publish-tip" id="publishTip"></div>
+                <div class="editor-tip" id="editorTip"></div>
+                <div class="upload-image" onclick="showFileCatalog();">图片</div>
+                <div class="save-content" onclick="modifyArticle();">保存</div>
+                <div class="publish-content" onclick="publishArticle();">发布</div>
+                <div class="delete-content" onclick="showArticleCatalog();">删除</div>
+                <div class="unpublish-content" onclick="unpublishArticle();">取消发布</div>
+            </div>
+            <div class="edit-menu">
+                <div class="content">
+                    <textarea class="edit-content" id="editContent" oninput="text2HTML(this)"></textarea>
+                    <label class="toggle-label" for="toggleInput"></label>
+                    <input type="checkbox" id="toggleInput" name="toggle-input">
+                    <div class="show-content" id="showContent"></div>
+                </div>
+            </div>
+        </div>
     </div>
-    <textarea id="editor" data-provide="markdown" data-savable="true" rows="42"></textarea>
-</form>
-<small class="text-info" id="saveInfo"></small>
-{% endblock %}
+
+    <div class="category-catalog">
+        <div class="new-category">
+            <input id="newCategoryName" type="text" placeholder="文集名">
+        </div>
+        <div class="submit-category">
+            <button class="category-catalog-btn" id="submitCreateCategory" onclick="createCategory();">创建</button>
+            <button class="category-catalog-btn" onclick="hideCategoryCatalog();">取消</button>
+        </div>
+    </div>
+
+    <div class="category-catalog-modify">
+        <div class="modify-category">
+            <input id="latestCategoryName" type="text" placeholder="文集名">
+        </div>
+        <div class="submit-category">
+            <button class="category-catalog-btn" id="submitModifyCategory" onclick="modifyCategory();">修改</button>
+            <button class="category-catalog-btn" onclick="hideModifyCatalog();">取消</button>
+        </div>
+    </div>
+
+    <div class="category-catalog-delete">
+        <div class="delete-category-tip">确定删除选中文集?</div>
+        <div class="submit-category">
+            <button class="category-catalog-btn" onclick="deleteCategory();">确定</button>
+            <button class="category-catalog-btn" onclick="hideDeleteCatalog();">取消</button>
+        </div>
+    </div>
+
+    <div class="article-catalog">
+        <div class="article-catalog-tip">确定删除此文章?</div>
+        <div class="submit-category">
+            <button class="category-catalog-btn" onclick="deleteArticle();">确定</button>
+            <button class="category-catalog-btn" onclick="hideArticleCatalog();">取消</button>
+        </div>
+    </div>
+
+    <div class="file-catalog">
+        <input class="file-input" id="fileInput" type="file" name="image">
+        <div class="file-link"></div>
+        <div class="submit-upload">
+            <button class="file-catalog-btn" onclick="uploadFile();">上传</button>
+            <button class="file-catalog-btn" onclick="hideFileCatalog();">关闭</button>
+        </div>
+    </div>
+
+</body>
+
+</html>

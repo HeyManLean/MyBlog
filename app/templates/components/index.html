@@ -1,0 +1,23 @@
+<h1 class="section-title">Latest ...</h1>
+<ul class="post-list">
+    {% for post in articles %}
+    <li class="post-item">
+        <article>
+            <h1>
+                <a href="/posts/{{ post.id }}" class="post-title-link">
+                    {{ post.title }}
+                </a>
+            </h1>
+            <div class="post-info">
+                {{ post.create_time.date() }}
+            </div>
+            <div class="post-content">
+                {{ post.abscontent|safe }}
+            </div>
+            <a href="/posts/{{ post.id }}" class="post-read-more">
+                ...more
+            </a>
+        </article>
+    </li>
+    {% endfor %}
+</ul>

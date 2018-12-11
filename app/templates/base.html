@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>LEAN</title>
+    <link type="image/x-icon" rel="shortcut icon" href="/static/images/logo.png">
+    <link type="text/css" rel="stylesheet" href="/static/css/hightlight.css">
+    <link type="text/css" rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <a href="/" class="logo-link">
+                <span>LEAN</span>
+            </a>
+            <nav>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/" {% if location == "home" %}class="active"{% endif %}>BLOG</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/archives" {% if location == "archives" %}class="active"{% endif %}>ARCHIVE</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/categories" {% if location == "categories" %}class="active"{% endif %}>CATEGORY</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/about" {% if location == "about" %}class="active"{% endif %}>ABOUT</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <section class="container">
+            {% if location == "home" %}
+                {% include "components/index.html" %}
+            {% elif location == "archives" %}
+                {% include "components/archive.html" %}
+            {% elif location == "categories" %}
+                {% include "components/category.html" %}
+            {% elif location == "about" %}
+                {% include "components/about.html" %}
+            {% elif location == "posts" %}
+                {% include "components/post.html" %}
+            {% endif %}
+        </section>
+        <footer>
+            <div class="copyright">
+                <p>
+                    © 2018 LEAN'S BLOG, powered by LEAN
+                </p>
+            </div>
+        </footer>
+    </div>
+    <a href="/editor" class="editor-link" title="编辑器"  target="_blank">L</a>
+</body>
+
+</html>
