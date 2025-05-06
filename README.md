@@ -21,7 +21,7 @@ python manage.py shell
 
 # python
 u = User()
-u.email = '15622342848@163.com'
+u.email = 'xxx@163.com'
 u.password = '123456'
 u.nickname = 'lean'
 db.session.add(u)
