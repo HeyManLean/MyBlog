@@ -46,7 +46,7 @@ python manage.py shell
 
 # 创建用户用于登录编辑器
 u = User()
-u.email = '15622342848@163.com'
+u.email = 'xxx@163.com'
 u.password = '123456'
 u.nickname = 'lean'
 db.session.add(u)
